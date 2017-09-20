@@ -24,3 +24,46 @@ h4.text-under-logo {
 md-card.widget-card {
     height: calc(100% - 16px);
 }
+
+md-card-content.widget-content {
+    padding-top: 0;
+
+    h2 {
+        margin: 0;
+    }
+
+    p {
+        margin-top: 0;
+        margin-bottom: 6px;
+    }
+}
+
+md-card-header {
+    padding: 16px !important;
+
+    &.loading {
+        padding-top: 16px - 5px !important; /* progress bar height */
+    }
+
+    md-card-header-text {
+        margin-left: 12px;
+    }
+
+    button.md-button {
+        margin-right: 0 !important;
+    }
+}
+
+.code {
+    text-transform: none;
+    white-space: pre;
+    padding: 5px;
+    background: #ececec;
+    border-radius: 3px;
+    font-family: 'Roboto Mono', monospace;
+    text-align: center;
+}
+
+.widget-line {
+    margin-top: 4px;
+}
