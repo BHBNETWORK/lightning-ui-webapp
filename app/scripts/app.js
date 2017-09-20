@@ -57,4 +57,7 @@ angular
         $mdThemingProvider.enableBrowserColor({
             theme: 'default'
         });
+    })
+    .config(function (ConfigProvider) {
+        ConfigProvider.serverHost = 'http://127.0.0.1:19000/api';
     });
