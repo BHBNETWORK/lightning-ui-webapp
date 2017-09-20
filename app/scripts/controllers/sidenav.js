@@ -22,10 +22,6 @@ angular.module('App')
             $scope.closed = false;
         });
 
-        $scope.openAccountMenu = function ($mdMenu, ev) {
-            $mdMenu.open(ev);
-        };
-
         $scope.menuEntries = [
             {
                 title: 'Dashboard',
