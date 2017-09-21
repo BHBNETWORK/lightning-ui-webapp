@@ -1,0 +1,21 @@
+<md-dialog ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Balance</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <p>Your balance with: {{nodeid}} is:</p>
+
+            <p>mSatoshis to us: {{msatoshi_to_us}}</p>
+            <p>mSatoshis to peer: {{msatoshi_to_peer}}</p>
+            <p>mSatoshis total: {{msatoshi_total}}</p>
+        </div>
+    </md-dialog-content>
+</md-dialog>

@@ -72,3 +72,37 @@ md-card-header {
     transform: scale(0.5);
     height: 35px !important;
 }
+
+.no-padding {
+    padding: 0;
+}
+
+.scroll-box {
+    overflow-x: hidden;
+    overflow-y: scroll;;
+
+    max-height: 150px;
+}
+
+md-progress-linear.top-list-item {
+    position: absolute;
+    top: 0;
+    left: 0;
+}
+
+span.nodeid {
+    overflow-x: hidden;
+    max-width: 38vw;
+}
+
+@media (max-width: 600px) {
+    span.nodeid {
+        max-width: 78vw;
+    }
+}
+
+@media (min-width: 1280px) {
+    span.nodeid {
+        max-width: 31.1vw;
+    }
+}

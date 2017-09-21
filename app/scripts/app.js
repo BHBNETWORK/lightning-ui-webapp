@@ -18,7 +18,8 @@ angular
         'ngRoute',
         'ngSanitize',
         'ngMaterial',
-        'angularMoment'
+        'angularMoment',
+        'ngclipboard'
     ])
     .config(function ($routeProvider) {
         $routeProvider

@@ -1,4 +1,4 @@
-<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix">
+<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix" layout-align="center stretch">
     <!-- My wallet widget -->
     <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="MyWalletWidgetCtrl as ctrl">
         <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
@@ -35,6 +35,66 @@
         </md-card-content>
     </md-card>
 
+    <!-- Connected peers widget -->
+    <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="ConnectedPeersWidgetCtrl as ctrl">
+        <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="ctrl.loading ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">account_balance_wallet</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Connected peers</span>
+                <span class="md-subhead">Updated <span am-time-ago="ctrl.lastUpdate"></span></span>
+            </md-card-header-text>
+            <md-button class="md-icon-button" ng-click="ctrl.addPeer();">
+                <md-icon>add</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Open a new channel
+                </md-tooltip>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.update();">
+                <md-icon>refresh</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Update the list of the connected peers
+                </md-tooltip>
+            </md-button>
+        </md-card-header>
+
+        <md-card-content class="widget-content no-padding scroll-box">
+            <md-list id="peersList">
+                <md-list-item ng-repeat="peer in ctrl.peers">
+                    <span class="code nodeid">{{peer.peerid}}</span>
+                    <md-menu class="md-secondary">
+                        <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
+                            <md-icon>more_vert</md-icon>
+                        </md-button>
+                        <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.showBalance($event, peer.peerid, $index);">Show balance
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.showConfirm($event, peer.peerid, $index);">Close channel
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button
+                                    data-clipboard-text="{{peer.peerid}}"
+                                    ngclipboard-success="ctrl.copiedToClipboard()"
+                                    ngclipboard>
+                                    Copy node ID
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
+</div>
+
+<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix">
     <!-- Send pay widget -->
     <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="SendPayWidgetCtrl as ctrl">
         <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
@@ -76,6 +136,9 @@
                     <md-input-container flex="20">
                         <md-checkbox class="md-primary" ng-model="ctrl.payment.autoRoute">
                             Auto
+                            <md-tooltip md-delay="600" md-direction="top">
+                                Automatically calculate the route
+                            </md-tooltip>
                         </md-checkbox>
                     </md-input-container>
                 </div>
