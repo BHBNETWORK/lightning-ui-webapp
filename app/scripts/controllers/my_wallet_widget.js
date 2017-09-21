@@ -50,9 +50,5 @@ angular.module('App')
         };
 
         this.update(true);
-        this.updateInterval = $interval(this.update, UPDATE_DELAY, 0, true, false);
-
-        this.stopUpdating = function () {
-            $interval.cancel(_self.updateInterval);
-        }
+        $interval(this.update, UPDATE_DELAY, 0, true, false);
     });

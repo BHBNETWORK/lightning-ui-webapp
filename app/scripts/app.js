@@ -44,16 +44,10 @@ angular
         });
         $mdThemingProvider.definePalette('newOrange', newOrangeMap);
 
-        var newPinkMap = $mdThemingProvider.extendPalette('pink', {
-            '500': '#e91e63',
-            'contrastDefaultColor': 'light'
-        });
-        $mdThemingProvider.definePalette('newPink', newPinkMap);
-
         $mdThemingProvider.theme('default')
             .primaryPalette('newGreen')
             .accentPalette('newOrange')
-            .warnPalette('newPink');
+            .warnPalette('red');
 
         $mdThemingProvider.enableBrowserColor({
             theme: 'default'

@@ -67,3 +67,8 @@ md-card-header {
 .widget-line {
     margin-top: 4px;
 }
+
+.half-size {
+    transform: scale(0.5);
+    height: 35px !important;
+}

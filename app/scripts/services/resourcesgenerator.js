@@ -34,9 +34,9 @@ angular.module('App')
         this.failureHandler = function (errorResponse) {
             $rootScope.$emit('loading-stop');
 
-            var errorString = DEFAULT_ERROR_MESSAGE;
-            if (errorResponse && errorResponse.error && typeof errorResponse.error === 'string') {
-                errorString = errorResponse.error;
+            var errorString = null;
+            if (errorResponse && errorResponse.data.error && typeof errorResponse.data.error === 'string') {
+                errorString = errorResponse.data.error;
             }
 
             return $mdDialog.show(
@@ -49,6 +49,8 @@ angular.module('App')
                     .targetEvent($rootScope.getClickEvent())
                     .theme($rootScope.theme)
             )
-                .then($q.reject(errorString || errorResponse));
+                .then(function () {
+                    return $q.reject(errorString || errorResponse);
+                });
         };
     });
