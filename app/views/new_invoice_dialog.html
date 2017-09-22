@@ -1,0 +1,41 @@
+<md-dialog ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Create a new invoice</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <form name="newInvoiceForm">
+        <md-dialog-content>
+            <div class="md-dialog-content" style="padding-bottom: 0;">
+                <md-input-container class="md-block">
+                    <label>Label</label>
+                    <input name="label" ng-model="newInvoice.label" required>
+                    <div ng-messages="newInvoiceForm.label.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Amount</label>
+                    <input name="amount" ng-model="newInvoice.amount" required>
+                    <div ng-messages="newInvoiceForm.amount.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: check > 0-->
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="confirm($event) && close();"
+                       ng-disabled="newInvoiceForm.$invalid">
+                Submit
+            </md-button>
+        </md-dialog-actions>
+    </form>
+</md-dialog>

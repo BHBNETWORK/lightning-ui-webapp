@@ -76,6 +76,11 @@ angular.module('App')
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
+        this.deleteInvoice = function (label) {
+            return ResourcesGeneratorService.getResource('lightning/invoice/:label').delete({label: label}).$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
         this.sendPay = function (route, rhash) {
             return ResourcesGeneratorService.getResource('lightning/sendpay').post({
                 route: route,

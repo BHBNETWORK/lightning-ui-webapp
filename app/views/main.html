@@ -61,7 +61,7 @@
             </md-button>
         </md-card-header>
 
-        <md-card-content class="widget-content no-padding scroll-box">
+        <md-card-content class="widget-content no-padding scroll-box" style="min-height: 150px;">
             <md-list>
                 <md-list-item ng-repeat="peer in ctrl.peers">
                     <span class="code nodeid">{{peer.peerid}}</span>
@@ -219,7 +219,7 @@
             </md-button>
         </md-card-header>
 
-        <md-card-content class="widget-content no-padding scroll-box" layout="column">
+        <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;" layout="column">
             <md-list id="peersList">
                 <md-subheader class="md-no-sticky">Invoices list</md-subheader>
                 <md-list-item class="md-2-line" ng-repeat="invoice in ctrl.invoices">
@@ -238,11 +238,8 @@
                         </md-button>
                         <md-menu-content>
                             <md-menu-item>
-                                <md-button ng-click="ctrl.showBalance($event, peer.peerid, $index);">Show balance
-                                </md-button>
-                            </md-menu-item>
-                            <md-menu-item>
-                                <md-button ng-click="ctrl.deleteInvoice($event, null, $index);">Delete invoice
+                                <md-button ng-click="ctrl.deleteInvoice($event, invoice.label, $index);">
+                                    Delete invoice
                                 </md-button>
                             </md-menu-item>
                             <md-menu-item>
