@@ -37,7 +37,7 @@ angular.module('App')
             $mdToast.show(
                 $mdToast.simple()
                     .textContent('Copied to clipboard!')
-                    .position('top right')
+                    .position('bottom right')
                     .hideDelay(2500)
             );
         };

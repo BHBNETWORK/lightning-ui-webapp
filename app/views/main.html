@@ -1,4 +1,4 @@
-<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix" layout-align="center stretch">
+<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix">
     <!-- My wallet widget -->
     <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="MyWalletWidgetCtrl as ctrl">
         <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
@@ -40,7 +40,7 @@
         <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
         <md-card-header ng-class="ctrl.loading ? 'loading' : ''">
             <md-card-avatar>
-                <md-icon class="md-avatar-icon">account_balance_wallet</md-icon>
+                <md-icon class="md-avatar-icon">people</md-icon>
             </md-card-avatar>
             <md-card-header-text>
                 <span class="md-title">Connected peers</span>
@@ -62,7 +62,7 @@
         </md-card-header>
 
         <md-card-content class="widget-content no-padding scroll-box">
-            <md-list id="peersList">
+            <md-list>
                 <md-list-item ng-repeat="peer in ctrl.peers">
                     <span class="code nodeid">{{peer.peerid}}</span>
                     <md-menu class="md-secondary">
@@ -189,6 +189,74 @@
                     <span ng-if="ctrl.calculatingRoute" flex="1">Calculating the route...</span>
                 </div>
             </form>
+        </md-card-content>
+    </md-card>
+
+    <!-- My invoices -->
+    <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="InvoicesWidgetCtrl as ctrl">
+        <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="ctrl.loading ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">insert_drive_file</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Your invoices</span>
+                <span class="md-subhead">Updated <span am-time-ago="ctrl.lastUpdate"></span></span>
+            </md-card-header-text>
+
+            <md-button class="md-icon-button" ng-click="ctrl.newInvoice();">
+                <md-icon>add</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Create a new invoice
+                </md-tooltip>
+            </md-button>
+
+            <md-button class="md-icon-button" ng-click="ctrl.update();">
+                <md-icon>refresh</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Refresh the list of invoices
+                </md-tooltip>
+            </md-button>
+        </md-card-header>
+
+        <md-card-content class="widget-content no-padding scroll-box" layout="column">
+            <md-list id="peersList">
+                <md-subheader class="md-no-sticky">Invoices list</md-subheader>
+                <md-list-item class="md-2-line" ng-repeat="invoice in ctrl.invoices">
+                    <md-icon class="md-avatar-icon md-avatar list-icon">{{invoice.complete ? 'assignment_turned_in' :
+                        'assignment_late'}}
+                    </md-icon>
+
+                    <div class="md-list-item-text">
+                        <h3>{{invoice.label}}</h3>
+                        <p>Amount: {{invoice.msatoshi}}</p>
+                    </div>
+
+                    <md-menu class="md-secondary">
+                        <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
+                            <md-icon>more_vert</md-icon>
+                        </md-button>
+                        <md-menu-content>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.showBalance($event, peer.peerid, $index);">Show balance
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button ng-click="ctrl.deleteInvoice($event, null, $index);">Delete invoice
+                                </md-button>
+                            </md-menu-item>
+                            <md-menu-item>
+                                <md-button
+                                    data-clipboard-text="{{invoice.rhash}}"
+                                    ngclipboard-success="ctrl.copiedToClipboard()"
+                                    ngclipboard>
+                                    Copy rhash
+                                </md-button>
+                            </md-menu-item>
+                        </md-menu-content>
+                    </md-menu>
+                </md-list-item>
+            </md-list>
         </md-card-content>
     </md-card>
 </div>

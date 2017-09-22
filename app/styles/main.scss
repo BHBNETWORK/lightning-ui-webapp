@@ -22,7 +22,7 @@ h4.text-under-logo {
 }
 
 md-card.widget-card {
-    height: calc(100% - 16px);
+    height: auto;
 }
 
 md-card-content.widget-content {
@@ -77,13 +77,6 @@ md-card-header {
     padding: 0;
 }
 
-.scroll-box {
-    overflow-x: hidden;
-    overflow-y: scroll;;
-
-    max-height: 150px;
-}
-
 md-progress-linear.top-list-item {
     position: absolute;
     top: 0;
@@ -112,4 +105,18 @@ span.nodeid {
     top: calc(50% - 25px);
     left: calc(50% - 25px);
     z-index: 1;
+}
+
+md-icon.md-avatar-icon.list-icon {
+    width: 25px;
+    height: 25px;
+}
+
+md-card-content.scroll-box {
+    flex-grow: 1;
+    flex-shrink: 1;
+    flex-basis: 0;
+
+    overflow-x: hidden;
+    overflow-y: scroll;
 }
