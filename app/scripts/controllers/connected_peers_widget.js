@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('ConnectedPeersWidgetCtrl', function ($interval, LightningService, $mdToast, $mdDialog) {
+    .controller('ConnectedPeersWidgetCtrl', function ($interval, LightningService, $mdToast, $mdDialog, $rootScope) {
         var _self = this;
 
         var UPDATE_DELAY = 120 * 1000;
@@ -71,9 +71,12 @@ angular.module('App')
                 locals: {
                     items: {
                         nodeid: nodeid,
-                        msatoshi_to_us: _self.peers[index].msatoshi_to_us,
-                        msatoshi_to_peer: _self.peers[index].msatoshi_total - _self.peers[index].msatoshi_to_us,
-                        msatoshi_total: _self.peers[index].msatoshi_total
+                        /*jshint -W069 */
+                        msatoshiToUs: _self.peers[index]['msatoshi_to_us'],
+                        msatoshiToPeer: _self.peers[index]['msatoshi_total'] - _self.peers[index]['msatoshi_to_us'],
+                        msatoshiTotal: _self.peers[index]['msatoshi_total'],
+                        /*jshint +W069 */
+                        status: _self.peers[index].status
                     }
                 }
             })
@@ -82,6 +85,20 @@ angular.module('App')
         };
 
         this.addPeer = function (ev) {
+            var newNode = {
+                ip: '',
+                port: 10000,
+                nodeid: '',
+                amount: 0
+            };
+
+            function resetNewNode() {
+                newNode.ip = '';
+                newNode.port = 10000;
+                newNode.nodeid = '';
+                newNode.amount = 0;
+            }
+
             $mdDialog.show({
                 controller: 'DialogCtrl',
                 templateUrl: 'views/new_peer_dialog.html',
@@ -89,11 +106,27 @@ angular.module('App')
                 targetEvent: ev,
                 clickOutsideToClose: true,
                 locals: {
-                    items: {}
+                    items: {
+                        newNode: newNode,
+                        confirmNewNode: function (ev) {
+                            $rootScope.$emit('loading-start', ev);
+
+                            LightningService.openChannel(newNode.ip, newNode.port, newNode.nodeid, newNode.amount)
+                                .then(function () {
+                                    _self.update();
+                                })
+                                .catch(function (err) {
+                                    console.warn(err);
+                                })
+                                .finally(function () {
+                                    $rootScope.$emit('loading-stop');
+                                    resetNewNode();
+                                });
+                        }
+                    }
                 }
             })
-                .catch(function () {
-                }); // do nothing
+                .catch(resetNewNode); // reset the values
         };
 
         this.update();

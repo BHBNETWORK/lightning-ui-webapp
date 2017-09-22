@@ -1,7 +1,7 @@
 <md-dialog ng-cloak>
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Add a new peer</h2>
+            <h2>Open a new channel</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <md-icon>close</md-icon>
@@ -9,9 +9,53 @@
         </div>
     </md-toolbar>
 
-    <md-dialog-content>
-        <div class="md-dialog-content">
+    <form name="openChannel">
+        <md-dialog-content>
+            <div class="md-dialog-content" style="padding-bottom: 0;">
+                <div layout-gt-xs="row">
+                    <md-input-container class="md-block" flex-gt-xs="75">
+                        <label>Hostname</label>
+                        <input name="hostname" ng-model="newNode.ip" required>
+                        <div ng-messages="openChannel.hostname.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
 
-        </div>
-    </md-dialog-content>
+                    <md-input-container flex-gt-xs="25">
+                        <label>Port</label>
+                        <input name="port" type="number" ng-model="newNode.port" required>
+                        <div ng-messages="openChannel.port.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+                </div>
+
+                <md-input-container class="md-block">
+                    <label>Node ID</label>
+                    <input name="nodeid" ng-model="newNode.nodeid" required>
+                    <div ng-messages="openChannel.nodeid.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: check nodeid-->
+                    </div>
+                </md-input-container>
+
+                <md-input-container class="md-block">
+                    <label>Initial deposit</label>
+                    <input name="amount" ng-model="newNode.amount" required>
+                    <div ng-messages="openChannel.amount.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: check <= available funds && > 0-->
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+        <md-dialog-actions layout="row">
+            <md-button class="md-raised md-primary" ng-click="confirmNewNode($event);"
+                       ng-disabled="openChannel.$invalid">
+                Submit
+            </md-button>
+        </md-dialog-actions>
+    </form>
 </md-dialog>

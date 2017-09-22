@@ -106,3 +106,10 @@ span.nodeid {
         max-width: 31.1vw;
     }
 }
+
+.central {
+    position: absolute;
+    top: calc(50% - 25px);
+    left: calc(50% - 25px);
+    z-index: 1;
+}
