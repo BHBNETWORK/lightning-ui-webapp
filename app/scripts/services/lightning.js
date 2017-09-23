@@ -9,6 +9,8 @@
  */
 angular.module('App')
     .service('LightningService', function (ResourcesGeneratorService) {
+        var _self = this;
+
         this.getInfo = function () {
             return ResourcesGeneratorService.getResource('lightning/getinfo').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
@@ -74,6 +76,24 @@ angular.module('App')
         this.listInvoices = function () {
             return ResourcesGeneratorService.getResource('lightning/listinvoice').query().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
+        this.listFunds = function () {
+            return ResourcesGeneratorService.getResource('lightning/listfunds').query().$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
+        this.getFundsSum = function () {
+            return _self.listFunds()
+                .then(function (array) {
+                    var sum = 0;
+
+                    array.forEach(function (output) {
+                        sum += output.value;
+                    });
+
+                    return sum;
+                });
         };
 
         this.deleteInvoice = function (label) {

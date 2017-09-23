@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('MyWalletWidgetCtrl', function ($q, $interval, BitcoinService) {
+    .controller('MyWalletWidgetCtrl', function ($q, $interval, BitcoinService, LightningService) {
         var _self = this;
 
         var UPDATE_DELAY = 120 * 1000;
@@ -19,13 +19,15 @@ angular.module('App')
         this.address = '';
         this.confirmedBalance = 0;
         this.unconfirmedBalance = 0;
+        this.lightningFunds = 0;
 
         this.update = function (newAddr) {
             _self.loading = true;
 
             var promises = [
                 BitcoinService.getConfirmedBalance(),
-                BitcoinService.getUnconfirmedBalance()
+                BitcoinService.getUnconfirmedBalance(),
+                LightningService.getFundsSum()
             ];
 
             if (newAddr) {
@@ -36,9 +38,10 @@ angular.module('App')
                 .then(function (response) {
                     _self.confirmedBalance = response[0].balance;
                     _self.unconfirmedBalance = response[1].balance;
+                    _self.lightningFunds = response[2].balance;
 
                     if (newAddr) {
-                        _self.address = response[2].address;
+                        _self.address = response[3].address;
                     }
 
                     _self.lastUpdate = new Date();
