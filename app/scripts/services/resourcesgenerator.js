@@ -10,6 +10,7 @@
 angular.module('App')
     .service('ResourcesGeneratorService', function ($resource, $q, $mdDialog, $rootScope, Config) {
         var DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred, please try again later';
+        var lastErrorPopup = $q.resolve();
 
         this.getResource = function (path) {
             return $resource(Config.getServerPath() + path, {}, {
@@ -39,7 +40,11 @@ angular.module('App')
                 errorString = errorResponse.data.error;
             }
 
-            return $mdDialog.show(
+            if (lastErrorPopup.$$state.status === 0) {
+                return;
+            }
+
+            lastErrorPopup = $mdDialog.show(
                 $mdDialog.alert()
                     .clickOutsideToClose(true)
                     .title('An error occurred')
