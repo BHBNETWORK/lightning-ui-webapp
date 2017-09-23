@@ -12,6 +12,7 @@ angular.module('App')
         var _self = this;
 
         var UPDATE_DELAY = 120 * 1000;
+        var updateInterval = null;
 
         this.loading = false;
         this.lastUpdate = null;
@@ -130,5 +131,9 @@ angular.module('App')
         };
 
         this.update();
-        $interval(this.update, UPDATE_DELAY);
+        updateInterval = $interval(this.update, UPDATE_DELAY);
+
+        this.$destroy = function () {
+            $interval.cancel(updateInterval);
+        };
     });

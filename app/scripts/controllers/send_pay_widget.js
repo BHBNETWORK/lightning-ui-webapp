@@ -59,4 +59,7 @@ angular.module('App')
                     _self.loading = false;
                 });
         };
+
+        this.$destroy = function () {
+        };
     });

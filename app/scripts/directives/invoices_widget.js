@@ -14,6 +14,11 @@ angular.module('App')
             templateUrl: 'views/widgets/invoices.html',
             controller: 'InvoicesWidgetCtrl',
             controllerAs: 'ctrlInvoices',
-            bindToController: true
+            bindToController: true,
+            link: function (scope) {
+                scope.$on('$destroy', function () {
+                    scope.ctrlInvoices.$destroy();
+                });
+            }
         };
     });

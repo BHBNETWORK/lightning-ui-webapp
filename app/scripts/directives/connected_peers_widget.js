@@ -14,6 +14,11 @@ angular.module('App')
             templateUrl: 'views/widgets/connected_peers.html',
             controller: 'ConnectedPeersWidgetCtrl',
             controllerAs: 'ctrlConnectedPeers',
-            bindToController: true
+            bindToController: true,
+            link: function (scope) {
+                scope.$on('$destroy', function () {
+                    scope.ctrlConnectedPeers.$destroy();
+                });
+            }
         };
     });

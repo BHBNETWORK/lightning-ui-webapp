@@ -14,6 +14,11 @@ angular.module('App')
             templateUrl: 'views/widgets/send_pay.html',
             controller: 'SendPayWidgetCtrl',
             controllerAs: 'ctrlSendPay',
-            bindToController: true
+            bindToController: true,
+            link: function (scope) {
+                scope.$on('$destroy', function () {
+                    scope.ctrlSendPay.$destroy();
+                });
+            }
         };
     });

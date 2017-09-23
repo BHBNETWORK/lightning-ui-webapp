@@ -14,6 +14,11 @@ angular.module('App')
             templateUrl: 'views/widgets/my_wallet.html',
             controller: 'MyWalletWidgetCtrl',
             controllerAs: 'ctrlWallet',
-            bindToController: true
+            bindToController: true,
+            link: function (scope) {
+                scope.$on('$destroy', function () {
+                    scope.ctrlWallet.$destroy();
+                });
+            }
         };
     });
