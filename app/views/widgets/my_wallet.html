@@ -1,0 +1,40 @@
+<md-card>
+    <md-progress-linear ng-show="ctrlWallet.loading" md-mode="indeterminate"></md-progress-linear>
+    <md-card-header ng-class="ctrlWallet.loading ? 'loading' : ''">
+        <md-card-avatar class="pointer" ng-click="goTo('/wallet')">
+            <md-icon class="md-avatar-icon">account_balance_wallet</md-icon>
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title">Your wallet</span>
+            <span class="md-subhead">Updated <span am-time-ago="ctrlWallet.lastUpdate"></span></span>
+        </md-card-header-text>
+
+        <md-button class="md-icon-button" ng-click="ctrlWallet.update(true);">
+            <md-icon>refresh</md-icon>
+            <md-tooltip md-delay="600" md-direction="top">
+                Refresh the balance and generate a new address
+            </md-tooltip>
+        </md-button>
+    </md-card-header>
+
+    <md-card-content class="widget-content">
+        <div layout="row" layout-align="center center">
+            <span flex="15">Address:</span>
+            <span flex="85" class="code">{{ctrlWallet.address}}</span>
+        </div>
+
+        <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
+            <span flex="35">Confirmed balance:</span>
+            <span flex="65" style="text-align: right;">{{ctrlWallet.confirmedBalance}} XBT</span>
+        </div>
+        <div layout="row" class="widget-line" layout-align="center center">
+            <span flex="35">Unconfirmed balance:</span>
+            <span flex="65" style="text-align: right;">{{ctrlWallet.unconfirmedBalance}} XBT</span>
+        </div>
+
+        <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
+            <span flex="35">Lightning funds:</span>
+            <span flex="65" style="text-align: right;">{{ctrlWallet.lightningFunds}} XBT</span>
+        </div>
+    </md-card-content>
+</md-card>

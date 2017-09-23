@@ -21,8 +21,12 @@ h4.text-under-logo {
     min-height: initial;
 }
 
-md-card.widget-card {
+.widget-card {
     height: auto;
+}
+
+.widget-card > md-card {
+    height: calc(100% - 16px);
 }
 
 md-card-content.widget-content {

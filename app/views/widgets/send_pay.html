@@ -1,0 +1,97 @@
+<md-card>
+    <md-progress-linear ng-show="ctrlSendPay.loading" md-mode="indeterminate"></md-progress-linear>
+    <md-card-header ng-class="ctrlSendPay.loading ? 'loading' : ''">
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon">send</md-icon>
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title">Pay an invoice</span>
+            <span class="md-subhead">Send a payment to a Lightning node</span>
+        </md-card-header-text>
+    </md-card-header>
+
+    <md-card-content class="widget-content">
+        <form name="sendPayForm">
+
+            <md-input-container class="md-block">
+                <label>RHash</label>
+                <input required name="rhash" ng-model="ctrlSendPay.payment.rhash">
+                <div ng-messages="sendPayForm.rhash.$error">
+                    <div ng-message="required">This is required.</div>
+
+                    <!-- TODO: validate rhash -->
+                </div>
+            </md-input-container>
+
+            <div layout="row" layout-align="space-between center">
+                <md-input-container flex="80">
+                    <label>Route</label>
+                    <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"
+                           name="route"
+                           ng-model="ctrlSendPay.payment.route">
+                    <div ng-messages="sendPayForm.route.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: validate the route -->
+                    </div>
+                </md-input-container>
+
+                <md-input-container flex="20">
+                    <md-checkbox class="md-primary" ng-model="ctrlSendPay.payment.autoRoute">
+                        Auto
+                        <md-tooltip md-delay="600" md-direction="top">
+                            Automatically calculate the route
+                        </md-tooltip>
+                    </md-checkbox>
+                </md-input-container>
+            </div>
+
+            <div ng-show="ctrlSendPay.payment.autoRoute">
+                <md-input-container class="md-block">
+                    <label>Node</label>
+                    <input ng-required="ctrlSendPay.payment.autoRoute" name="node"
+                           ng-model="ctrlSendPay.payment.nodeid">
+                    <div ng-messages="sendPayForm.node.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: validate nodeid -->
+                    </div>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between center">
+                    <md-input-container class="md-block" flex="50">
+                        <label>Amount</label>
+                        <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="amount"
+                               ng-model="ctrlSendPay.payment.amount">
+                        <div ng-messages="sendPayForm.amount.$error">
+                            <div ng-message="required">This is required.</div>
+
+                            <!-- TODO: check > 0 -->
+                        </div>
+                    </md-input-container>
+
+
+                    <md-input-container class="md-block" flex="50">
+                        <label>Risk Factor</label>
+                        <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="riskFactor"
+                               ng-model="ctrlSendPay.payment.riskFactor">
+                        <div ng-messages="sendPayForm.riskFactor.$error">
+                            <div ng-message="required">This is required.</div>
+
+                            <!-- TODO: check >= 0 -->
+                        </div>
+                    </md-input-container>
+                </div>
+            </div>
+
+            <div layout="row" layout-align="left center">
+                <md-button style="margin: 0;" class="md-raised md-primary" ng-disabled="sendPayForm.$invalid"
+                           flex="1" ng-click="ctrlSendPay.submit()">Send payment
+                </md-button>
+                <md-progress-circular ng-if="ctrlSendPay.calculatingRoute" flex="98" class="half-size"
+                                      style="margin-left: 15px;"></md-progress-circular>
+                <span ng-if="ctrlSendPay.calculatingRoute" flex="1">Calculating the route...</span>
+            </div>
+        </form>
+    </md-card-content>
+</md-card>

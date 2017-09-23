@@ -1,0 +1,58 @@
+<md-card>
+    <md-progress-linear ng-show="ctrlConnectedPeers.loading" md-mode="indeterminate"></md-progress-linear>
+    <md-card-header ng-class="ctrlConnectedPeers.loading ? 'loading' : ''">
+        <md-card-avatar>
+            <md-icon class="md-avatar-icon">people</md-icon>
+        </md-card-avatar>
+        <md-card-header-text>
+            <span class="md-title">Connected peers</span>
+            <span class="md-subhead">Updated <span am-time-ago="ctrlConnectedPeers.lastUpdate"></span></span>
+        </md-card-header-text>
+        <md-button class="md-icon-button" ng-click="ctrlConnectedPeers.addPeer();">
+            <md-icon>add</md-icon>
+            <md-tooltip md-delay="600" md-direction="top">
+                Open a new channel
+            </md-tooltip>
+        </md-button>
+
+        <md-button class="md-icon-button" ng-click="ctrlConnectedPeers.update();">
+            <md-icon>refresh</md-icon>
+            <md-tooltip md-delay="600" md-direction="top">
+                Update the list of the connected peers
+            </md-tooltip>
+        </md-button>
+    </md-card-header>
+
+    <md-card-content class="widget-content no-padding scroll-box" style="min-height: 150px;">
+        <md-list>
+            <md-list-item ng-repeat="peer in ctrlConnectedPeers.peers">
+                <span class="code nodeid">{{peer.peerid}}</span>
+                <md-menu class="md-secondary">
+                    <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
+                        <md-icon>more_vert</md-icon>
+                    </md-button>
+                    <md-menu-content>
+                        <md-menu-item>
+                            <md-button ng-click="ctrlConnectedPeers.showBalance($event, peer.peerid, $index);">Show
+                                balance
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button ng-click="ctrlConnectedPeers.showConfirm($event, peer.peerid, $index);">Close
+                                channel
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
+                            <md-button
+                                data-clipboard-text="{{peer.peerid}}"
+                                ngclipboard-success="ctrlConnectedPeers.copiedToClipboard()"
+                                ngclipboard>
+                                Copy node ID
+                            </md-button>
+                        </md-menu-item>
+                    </md-menu-content>
+                </md-menu>
+            </md-list-item>
+        </md-list>
+    </md-card-content>
+</md-card>
