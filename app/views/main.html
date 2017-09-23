@@ -2,7 +2,7 @@
     <!-- My wallet widget -->
     <md-card class="widget-card" flex-gt-xs="50" flex-xs="100" ng-controller="MyWalletWidgetCtrl as ctrl">
         <md-progress-linear ng-show="ctrl.loading" md-mode="indeterminate"></md-progress-linear>
-        <md-card-header ng-class="ctrl.loading ? 'loading' : ''">
+        <md-card-header ng-class="ctrl.loading ? 'loading' : ''" class="pointer" ng-click="goTo('/wallet')">
             <md-card-avatar>
                 <md-icon class="md-avatar-icon">account_balance_wallet</md-icon>
             </md-card-avatar>

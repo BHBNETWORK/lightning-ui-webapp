@@ -28,6 +28,10 @@ angular
                 controller: 'MainCtrl',
                 controllerAs: 'main'
             })
+            .when('/wallet', {
+                templateUrl: 'views/wallet.html',
+                controller: 'WalletCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });

@@ -2,14 +2,14 @@
 
 /**
  * @ngdoc function
- * @name App.controller:MainCtrl
+ * @name App.controller:WalletCtrl
  * @description
- * # MainCtrl
+ * # WalletCtrl
  * Controller of the App
  */
 angular.module('App')
-    .controller('MainCtrl', function ($scope, $rootScope, $location) {
-        $rootScope.$emit('page-title', 'Dashboard');
+    .controller('WalletCtrl', function ($scope, $rootScope, $location) {
+        $rootScope.$emit('page-title', 'Wallet');
 
         $scope.goTo = function (path) {
             $location.path(path);

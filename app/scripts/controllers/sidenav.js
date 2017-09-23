@@ -27,6 +27,11 @@ angular.module('App')
                 title: 'Dashboard',
                 icon: 'home',
                 link: '/'
+            },
+            {
+                title: 'Wallet',
+                icon: 'account_balance_wallet',
+                link: '/wallet'
             }
         ];
 
