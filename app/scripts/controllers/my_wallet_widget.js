@@ -32,14 +32,14 @@ angular.module('App')
             ];
 
             if (newAddr) {
-                promises.push(BitcoinService.getNewAddress());
+                promises.push(LightningService.getNewAddress());
             }
 
             $q.all(promises)
                 .then(function (response) {
-                    _self.confirmedBalance = response[0].balance;
-                    _self.unconfirmedBalance = response[1].balance;
-                    _self.lightningFunds = response[2].balance;
+                    _self.confirmedBalance = response[0].balance * 1e8;
+                    _self.unconfirmedBalance = response[1].balance * 1e8;
+                    _self.lightningFunds = response[2];
 
                     if (newAddr) {
                         _self.address = response[3].address;
@@ -48,7 +48,7 @@ angular.module('App')
                     _self.lastUpdate = new Date();
                     _self.loading = false;
                 })
-                .catch(function () {
+                .catch(function (err) {
                     _self.loading = false;
                 });
         };

@@ -96,7 +96,7 @@ angular.module('App')
         };
 
         this.listFunds = function () {
-            return ResourcesGeneratorService.getResource('lightning/listfunds').query().$promise
+            return ResourcesGeneratorService.getResource('lightning/listfunds').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
@@ -105,7 +105,7 @@ angular.module('App')
                 .then(function (array) {
                     var sum = 0;
 
-                    array.forEach(function (output) {
+                    array.outputs.forEach(function (output) {
                         sum += output.value;
                     });
 
