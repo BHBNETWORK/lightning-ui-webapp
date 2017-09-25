@@ -39,9 +39,8 @@ angular.module('App')
                     .then(function (txid) {
                         return BitcoinService.getRawTransaction(txid.txid);
                     })
-                    .then(function (rawtx) {
+                    .finally(function () {
                         $scope.addfunds.creatingTx = false;
-                        return rawtx;
                     });
             }
 

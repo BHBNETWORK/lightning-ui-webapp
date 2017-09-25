@@ -44,9 +44,7 @@ angular.module('App')
 
                     return LightningService.sendPay(JSON.parse(_self.payment.route), _self.payment.rhash);
                 })
-                .then(function (response) {
-                    console.log(response);
-
+                .then(function () {
                     _self.payment.route = '';
                     _self.payment.rhash = '';
                     _self.payment.nodeid = '';
