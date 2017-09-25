@@ -32,7 +32,7 @@ angular.module('App')
         $scope.refreshPeers = function () {
             $scope.loadingPeers = true;
 
-            LightningService.getPeers()
+            return LightningService.getPeers()
                 .then(function (list) {
                     $scope.peers = list.peers;
                 })
@@ -110,6 +110,9 @@ angular.module('App')
                             .hideDelay(false)
                             .action('Close')
                     );
+                })
+                .then(function () {
+                    return $scope.refreshPeers();
                 })
                 .finally(function () {
                     $scope.loadingPeers = false;

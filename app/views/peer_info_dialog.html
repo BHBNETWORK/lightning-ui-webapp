@@ -1,0 +1,24 @@
+<md-dialog ng-cloak>
+    <md-toolbar>
+        <div class="md-toolbar-tools">
+            <h2>Peer informations</h2>
+            <span flex></span>
+            <md-button class="md-icon-button" ng-click="close()">
+                <md-icon>close</md-icon>
+            </md-button>
+        </div>
+    </md-toolbar>
+
+    <md-dialog-content>
+        <div class="md-dialog-content">
+            <p>Showing informations of peer <span class="code height-2-2">{{nodeid}}</span>:</p>
+
+            <p>Connection status: {{connectionStatus}}</p>
+            <br>
+
+            <p>mSatoshis to us: {{msatoshiToUs || '-'}}</p>
+            <p>mSatoshis to peer: {{msatoshiToPeer || '-'}}</p>
+            <p>mSatoshis total: {{msatoshiTotal || '-'}}</p>
+        </div>
+    </md-dialog-content>
+</md-dialog>

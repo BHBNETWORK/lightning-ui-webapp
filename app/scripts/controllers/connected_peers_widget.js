@@ -59,10 +59,23 @@ angular.module('App')
                 }); // Do nothing
         };
 
-        this.showBalance = function (ev, nodeid, index) {
+        this.connect = function (ev, nodeid, netaddr) {
+            var splitIndex = netaddr.lastIndexOf(':');
+            var address = netaddr.slice(0, splitIndex);
+            var port = netaddr.slice(splitIndex);
+
+            _self.loading = true;
+            LightningService.connect(address, port, nodeid)
+                .finally(function () {
+                    _self.update();
+                    _self.loading = false;
+                });
+        };
+
+        this.peerInfoDialog = function (ev, nodeid, index) {
             $mdDialog.show({
                 controller: 'DialogCtrl',
-                templateUrl: 'views/balance_dialog.html',
+                templateUrl: 'views/peer_info_dialog.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
@@ -74,7 +87,7 @@ angular.module('App')
                         msatoshiToPeer: _self.peers[index]['msatoshi_total'] - _self.peers[index]['msatoshi_to_us'],
                         msatoshiTotal: _self.peers[index]['msatoshi_total'],
                         /*jshint +W069 */
-                        status: _self.peers[index].status
+                        connectionStatus: _self.peers[index].state
                     }
                 }
             })

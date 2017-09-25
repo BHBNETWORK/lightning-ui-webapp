@@ -72,26 +72,27 @@
                 <md-icon class="md-avatar-icon">add</md-icon>
             </md-card-avatar>
             <md-card-header-text>
-                <span class="md-title">Fund a channel</span>
-                <span class="md-subhead">Add funds to a Lightning channel</span>
+                <span class="md-title">Open a new channel</span>
+                <span class="md-subhead">Add funds to open a new Lightning channel</span>
             </md-card-header-text>
 
             <md-button class="md-icon-button" ng-click="refreshPeers()">
                 <md-icon>refresh</md-icon>
                 <md-tooltip md-delay="600" md-direction="top">
-                    Refresh the list of channels
+                    Refresh the list of peers
                 </md-tooltip>
             </md-button>
         </md-card-header>
 
         <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;">
             <md-list>
-                <md-list-item ng-repeat="peer in peers">
+                <md-list-item ng-repeat="peer in peers"
+                              ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN'">
                     <span class="code" style="overflow-x: hidden;">{{peer.peerid}}</span>
                     <md-button class="md-secondary md-icon-button" ng-click="fundChannel($event, peer.peerid)">
                         <md-icon>add</md-icon>
                         <md-tooltip md-delay="600" md-direction="top">
-                            Add funds to this channel
+                            Add funds to open a channel
                         </md-tooltip>
                     </md-button>
                 </md-list-item>
