@@ -36,7 +36,7 @@ angular.module('App')
             $rootScope.$emit('loading-stop');
 
             var errorString = null;
-            if (errorResponse && errorResponse.data.error && typeof errorResponse.data.error === 'string') {
+            if (errorResponse && errorResponse.data && errorResponse.data.error && typeof errorResponse.data.error === 'string') {
                 errorString = errorResponse.data.error;
             }
 
@@ -57,5 +57,7 @@ angular.module('App')
                 .then(function () {
                     return $q.reject(errorString || errorResponse);
                 });
+
+            return lastErrorPopup;
         };
     });

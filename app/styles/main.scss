@@ -66,6 +66,10 @@ md-card-header {
     border-radius: 3px;
     font-family: 'Roboto Mono', monospace;
     text-align: center;
+
+    &.height-2-2 {
+        line-height: 2.2em;
+    }
 }
 
 .widget-line {

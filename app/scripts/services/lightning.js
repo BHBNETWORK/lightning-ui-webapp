@@ -39,7 +39,7 @@ angular.module('App')
         this.openChannel = function (hostname, port, nodeid, amount) {
             return ResourcesGeneratorService.getResource('lightning/openchannel').post({
                 ip: hostname,
-                post: port,
+                port: port,
                 nodeid: nodeid,
                 amount: amount
             }).$promise
@@ -48,6 +48,14 @@ angular.module('App')
 
         this.addFunds = function (rawtx) {
             return ResourcesGeneratorService.getResource('lightning/addfunds').post({rawtx: rawtx}).$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
+        this.fundChannel = function (nodeid, amount) {
+            return ResourcesGeneratorService.getResource('lightning/fundchannel').post({
+                nodeid: nodeid,
+                amount: amount
+            }).$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 

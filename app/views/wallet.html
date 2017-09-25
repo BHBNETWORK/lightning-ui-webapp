@@ -3,8 +3,8 @@
     <my-wallet-widget class="widget-card" flex-gt-xs="50" flex-xs="100"></my-wallet-widget>
 
     <md-card class="widget-card" flex-gt-xs="50" flex-xs="100">
-        <md-progress-linear ng-show="loading" md-mode="indeterminate"></md-progress-linear>
-        <md-card-header ng-class="loading ? 'loading' : ''">
+        <md-progress-linear ng-show="addfunds.loading" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="addfunds.loading ? 'loading' : ''">
             <md-card-avatar>
                 <md-icon class="md-avatar-icon">add</md-icon>
             </md-card-avatar>
@@ -62,5 +62,40 @@
             </form>
         </md-card-content>
     </md-card>
+</div>
 
+<div layout="coulumn" layout-fill class="layout-fill-height-fix">
+    <md-card class="widget-card" flex="100">
+        <md-progress-linear ng-show="loadingPeers" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="loadingPeers ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">add</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Fund a channel</span>
+                <span class="md-subhead">Add funds to a Lightning channel</span>
+            </md-card-header-text>
+
+            <md-button class="md-icon-button" ng-click="refreshPeers()">
+                <md-icon>refresh</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Refresh the list of channels
+                </md-tooltip>
+            </md-button>
+        </md-card-header>
+
+        <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;">
+            <md-list>
+                <md-list-item ng-repeat="peer in peers">
+                    <span class="code" style="overflow-x: hidden;">{{peer.peerid}}</span>
+                    <md-button class="md-secondary md-icon-button" ng-click="fundChannel($event, peer.peerid)">
+                        <md-icon>add</md-icon>
+                        <md-tooltip md-delay="600" md-direction="top">
+                            Add funds to this channel
+                        </md-tooltip>
+                    </md-button>
+                </md-list-item>
+            </md-list>
+        </md-card-content>
+    </md-card>
 </div>
