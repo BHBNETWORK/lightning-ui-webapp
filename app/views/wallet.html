@@ -1,0 +1,66 @@
+<div layout-xs="column" layout-gt-xs="row" layout-fill class="layout-fill-height-fix">
+    <!-- My wallet widget -->
+    <my-wallet-widget class="widget-card" flex-gt-xs="50" flex-xs="100"></my-wallet-widget>
+
+    <md-card class="widget-card" flex-gt-xs="50" flex-xs="100">
+        <md-progress-linear ng-show="loading" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="loading ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">add</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Add funds</span>
+                <span class="md-subhead">Move funds from Bitcoin to Lightning</span>
+            </md-card-header-text>
+        </md-card-header>
+
+        <md-card-content class="widget-content">
+            <form name="addFundsForm">
+
+                <md-input-container class="md-block">
+                    <label>Amount</label>
+                    <input type="number" ng-required="addfunds.autorawtx" name="amount" ng-model="addfunds.amount"
+                           ng-disabled="!addfunds.autorawtx">
+                    <div ng-messages="addFundsForm.amount.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <!-- TODO: check > 0 && < confirmedBalance -->
+                    </div>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between center">
+                    <md-input-container flex="80">
+                        <label>RawTX</label>
+                        <input ng-required="!addfunds.autorawtx" ng-disabled="addfunds.autorawtx"
+                               name="rawtx"
+                               ng-model="addfunds.rawtx">
+                        <div ng-messages="addFundsForm.route.$error">
+                            <div ng-message="required">This is required.</div>
+
+                            <!-- TODO: check the rawtx -->
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex="20">
+                        <md-checkbox class="md-primary" ng-model="addfunds.autorawtx">
+                            Auto
+                            <md-tooltip md-delay="600" md-direction="top">
+                                Automatically create the transaction
+                            </md-tooltip>
+                        </md-checkbox>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" layout-align="left center">
+                    <md-button style="margin: 0;" class="md-raised md-primary" ng-disabled="addFundsForm.$invalid"
+                               flex="1" ng-click="confirmAddFunds()">Confirm
+                    </md-button>
+                    <md-progress-circular ng-if="addfunds.creatingTx" flex="98" class="half-size"
+                                          style="margin-left: 15px;"></md-progress-circular>
+                    <span ng-if="addfunds.creatingTx" flex="1">Creating the transaction...</span>
+                </div>
+            </form>
+        </md-card-content>
+    </md-card>
+
+</div>
