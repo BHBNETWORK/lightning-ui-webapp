@@ -39,16 +39,6 @@
                         <!-- TODO: check nodeid-->
                     </div>
                 </md-input-container>
-
-                <md-input-container class="md-block">
-                    <label>Initial deposit</label>
-                    <input name="amount" ng-model="newNode.amount" required>
-                    <div ng-messages="openChannel.amount.$error">
-                        <div ng-message="required">This is required.</div>
-
-                        <!-- TODO: check <= available funds && > 0-->
-                    </div>
-                </md-input-container>
             </div>
         </md-dialog-content>
         <md-dialog-actions layout="row">

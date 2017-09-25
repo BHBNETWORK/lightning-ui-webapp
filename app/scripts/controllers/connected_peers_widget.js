@@ -43,10 +43,10 @@ angular.module('App')
             );
         };
 
-        this.showConfirm = function (ev, nodeid, index) {
+        this.showConfirm = function (ev, nodeid) {
             var confirm = $mdDialog.confirm()
                 .title('Do you really want to close this channel?')
-                .textContent('You are about to close your channel with ' + nodeid)
+                .htmlContent('<p>You are about to close your channel with <span class="code height-2-2">' + nodeid + '</span></p>')
                 .targetEvent(ev)
                 .ok('Yes')
                 .cancel('No');
@@ -54,9 +54,6 @@ angular.module('App')
             $mdDialog.show(confirm)
                 .then(function () {
                     return LightningService.closeChannel(nodeid);
-                })
-                .then(function () {
-                    _self.peers.splice(index, 1);
                 })
                 .catch(function () {
                 }); // Do nothing
@@ -89,15 +86,13 @@ angular.module('App')
             var newNode = {
                 ip: '',
                 port: 10000,
-                nodeid: '',
-                amount: 0
+                nodeid: ''
             };
 
             function resetNewNode() {
                 newNode.ip = '';
                 newNode.port = 10000;
                 newNode.nodeid = '';
-                newNode.amount = 0;
             }
 
             $mdDialog.show({
@@ -112,7 +107,7 @@ angular.module('App')
                         confirmNewNode: function (ev) {
                             $rootScope.$emit('loading-start', ev);
 
-                            LightningService.openChannel(newNode.ip, newNode.port, newNode.nodeid, newNode.amount)
+                            LightningService.connect(newNode.ip, newNode.port, newNode.nodeid)
                                 .then(function () {
                                     _self.update();
                                 })

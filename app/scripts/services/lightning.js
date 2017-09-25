@@ -46,6 +46,15 @@ angular.module('App')
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
+        this.connect = function (hostname, port, nodeid) {
+            return ResourcesGeneratorService.getResource('lightning/connect').post({
+                ip: hostname,
+                port: port,
+                nodeid: nodeid
+            }).$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
         this.addFunds = function (rawtx) {
             return ResourcesGeneratorService.getResource('lightning/addfunds').post({rawtx: rawtx}).$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);

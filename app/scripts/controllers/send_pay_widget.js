@@ -31,7 +31,7 @@ angular.module('App')
 
                 routePromise = LightningService.getRoute(_self.payment.nodeid, _self.payment.amount, _self.payment.riskFactor)
                     .then(function (route) {
-                        _self.payment.route = JSON.stringify(route);
+                        _self.payment.route = JSON.stringify(route.route);
                     })
                     .finally(function () {
                         _self.calculatingRoute = false;
