@@ -48,7 +48,7 @@ angular.module('App')
                     _self.lastUpdate = new Date();
                     _self.loading = false;
                 })
-                .catch(function (err) {
+                .catch(function () {
                     _self.loading = false;
                 });
         };

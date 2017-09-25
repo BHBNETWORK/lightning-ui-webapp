@@ -87,7 +87,7 @@
         <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;">
             <md-list>
                 <md-list-item ng-repeat="peer in peers"
-                              ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN'">
+                              ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN' && peer.state !== 'CHANNELD_SHUTTING_DOWN'">
                     <span class="code" style="overflow-x: hidden;">{{peer.peerid}}</span>
                     <md-button class="md-secondary md-icon-button" ng-click="fundChannel($event, peer.peerid)">
                         <md-icon>add</md-icon>

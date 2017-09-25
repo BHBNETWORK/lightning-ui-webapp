@@ -93,18 +93,18 @@ md-progress-linear.top-list-item {
 
 span.nodeid {
     overflow-x: hidden;
-    max-width: 38vw;
+    max-width: 34vw;
 }
 
 @media (max-width: 600px) {
     span.nodeid {
-        max-width: 78vw;
+        max-width: 58vw;
     }
 }
 
 @media (min-width: 1280px) {
     span.nodeid {
-        max-width: 31.1vw;
+        max-width: 27vw;
     }
 }
 

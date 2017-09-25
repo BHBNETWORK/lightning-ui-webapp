@@ -72,6 +72,19 @@ angular.module('App')
                 });
         };
 
+        this.getIcon = function (peerState) {
+            var icons = {
+                'GOSSIPD': 'cloud',
+                'OPENINGD': 'rss_feed',
+                'CHANNELD_AWAITING_LOCKIN': 'done',
+                'CHANNELD_NORMAL': 'done_all',
+                'CHANNELD_SHUTTING_DOWN': 'close',
+                'CLOSINGD_SIGEXCHANGE': 'compare_arrows'
+            };
+
+            return icons[peerState] || 'help_outline';
+        };
+
         this.peerInfoDialog = function (ev, nodeid, index) {
             $mdDialog.show({
                 controller: 'DialogCtrl',

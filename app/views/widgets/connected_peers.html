@@ -26,7 +26,12 @@
     <md-card-content class="widget-content no-padding scroll-box" style="min-height: 150px;">
         <md-list>
             <md-list-item ng-repeat="peer in ctrlConnectedPeers.peers">
+                <md-icon class="md-avatar-icon md-avatar list-icon">
+                    {{ctrlConnectedPeers.getIcon(peer.state)}}
+                </md-icon>
+
                 <span class="code nodeid">{{peer.peerid}}</span>
+
                 <md-menu class="md-secondary">
                     <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
                         <md-icon>more_vert</md-icon>
