@@ -13,12 +13,12 @@ angular.module('App')
             ngModel.$validators.routeValidation = function (value) {
                 try {
                     var parsedObj = JSON.parse(value);
-                    return Array.isArray(parsedObj)
-                        && parsedObj.every(function (i) {
-                            return i.hasOwnProperty('id')
-                                && i.hasOwnProperty('channel')
-                                && i.hasOwnProperty('msatoshi')
-                                && i.hasOwnProperty('delay');
+                    return Array.isArray(parsedObj) &&
+                        parsedObj.every(function (i) {
+                            return i.hasOwnProperty('id') &&
+                                i.hasOwnProperty('channel') &&
+                                i.hasOwnProperty('msatoshi') &&
+                                i.hasOwnProperty('delay');
                         });
                 } catch (err) {
                     return false;

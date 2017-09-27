@@ -22,11 +22,10 @@
 
                 <md-input-container class="md-block">
                     <label>Amount</label>
-                    <input name="amount" ng-model="newInvoice.amount" required>
+                    <input name="amount" ng-model="newInvoice.amount" required min="1">
                     <div ng-messages="newInvoiceForm.amount.$error">
                         <div ng-message="required">This is required.</div>
-
-                        <!-- TODO: check > 0-->
+                        <div ng-message="min">The amount must be positive.</div>
                     </div>
                 </md-input-container>
             </div>

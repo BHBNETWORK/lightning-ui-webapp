@@ -18,9 +18,13 @@
     </md-card-header>
 
     <md-card-content class="widget-content">
-        <div layout="row" layout-align="center center">
-            <span flex="15">Address:</span>
-            <span flex="85" class="code">{{ctrlWallet.address}}</span>
+        <div layout="row" layout-align="space-between center">
+            <span flex="25">Bitcoin Address:</span>
+            <span flex="75" class="code" style="font-size: 0.97em; width: 100%;">{{ctrlWallet.bitcoinAddress}}</span>
+        </div>
+        <div layout="row" layout-align="space-between center" style="margin-top: 7px;">
+            <span flex="25">Lightning Address:</span>
+            <span flex="75" class="code" style="font-size: 0.97em; width: 100%;">{{ctrlWallet.lightningAddress}}</span>
         </div>
 
         <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">

@@ -17,7 +17,8 @@ angular.module('App')
         this.loading = false;
         this.lastUpdate = null;
 
-        this.address = '';
+        this.lightningAddress = '';
+        this.bitcoinAddress = '';
         this.confirmedBalance = 0;
         this.unconfirmedBalance = 0;
         this.lightningFunds = 0;
@@ -33,6 +34,7 @@ angular.module('App')
 
             if (newAddr) {
                 promises.push(LightningService.getNewAddress());
+                promises.push(BitcoinService.getNewAddress());
             }
 
             $q.all(promises)
@@ -42,7 +44,8 @@ angular.module('App')
                     _self.lightningFunds = response[2];
 
                     if (newAddr) {
-                        _self.address = response[3].address;
+                        _self.lightningAddress = response[3].address;
+                        _self.bitcoinAddress = response[4].address;
                     }
 
                     _self.lastUpdate = new Date();
