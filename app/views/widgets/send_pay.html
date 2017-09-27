@@ -28,12 +28,11 @@
                 <md-input-container flex="80">
                     <label>Route</label>
                     <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"
-                           name="route"
+                           name="route" route-validation
                            ng-model="ctrlSendPay.payment.route">
                     <div ng-messages="sendPayForm.route.$error">
                         <div ng-message="required">This is required.</div>
-
-                        <!-- TODO: validate the route -->
+                        <div ng-message="routeValidation">Invalid route.</div>
                     </div>
                 </md-input-container>
 
@@ -62,11 +61,10 @@
                     <md-input-container class="md-block" flex="50">
                         <label>Amount</label>
                         <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="amount"
-                               ng-model="ctrlSendPay.payment.amount">
+                               ng-model="ctrlSendPay.payment.amount" min="1">
                         <div ng-messages="sendPayForm.amount.$error">
                             <div ng-message="required">This is required.</div>
-
-                            <!-- TODO: check > 0 -->
+                            <div ng-message="min">The amount must be a positive number.</div>
                         </div>
                     </md-input-container>
 
@@ -74,11 +72,10 @@
                     <md-input-container class="md-block" flex="50">
                         <label>Risk Factor</label>
                         <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="riskFactor"
-                               ng-model="ctrlSendPay.payment.riskFactor">
+                               ng-model="ctrlSendPay.payment.riskFactor" min="0">
                         <div ng-messages="sendPayForm.riskFactor.$error">
                             <div ng-message="required">This is required.</div>
-
-                            <!-- TODO: check >= 0 -->
+                            <div ng-message="min">The riskfactor cannot be negative.</div>
                         </div>
                     </md-input-container>
                 </div>

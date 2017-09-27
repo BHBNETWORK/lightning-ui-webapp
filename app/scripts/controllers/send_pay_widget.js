@@ -46,6 +46,8 @@ angular.module('App')
                 })
                 .then(function () {
                     _self.payment = null;
+                    _self.payment.autoRoute = true;
+                    _self.payment.riskFactor = 1;
 
                     $scope.sendPayForm.$setPristine();
                     $scope.sendPayForm.$setUntouched();
