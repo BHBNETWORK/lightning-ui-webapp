@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('SendPayWidgetCtrl', function ($q, LightningService) {
+    .controller('SendPayWidgetCtrl', function ($q, LightningService, $scope) {
         var _self = this;
 
         this.loading = false;
@@ -45,10 +45,10 @@ angular.module('App')
                     return LightningService.sendPay(JSON.parse(_self.payment.route), _self.payment.rhash);
                 })
                 .then(function () {
-                    _self.payment.route = '';
-                    _self.payment.rhash = '';
-                    _self.payment.nodeid = '';
-                    _self.payment.amount = null;
+                    _self.payment = null;
+
+                    $scope.sendPayForm.$setPristine();
+                    $scope.sendPayForm.$setUntouched();
                 })
                 .catch(function (error) {
                     console.warn(error);

@@ -33,13 +33,11 @@
 
                 <md-input-container class="md-block">
                     <label>Node ID</label>
-                    <input name="nodeid" ng-model="newNode.nodeid" minlength="66" maxlength="66" required>
+                    <input name="nodeid" ng-model="newNode.nodeid" nodeid-validation required>
                     <div ng-messages="connectPeer.nodeid.$error">
                         <div ng-message="required">This is required.</div>
 
-                        <!-- TODO: make sure nodeIds are always 66 chars-long -->
-                        <div ng-message="minlength">Invalid Node ID.</div>
-                        <div ng-message="maxlength">Invalid Node ID.</div>
+                        <div ng-message="nodeidValidation">Invalid Node ID.</div>
                     </div>
                 </md-input-container>
             </div>

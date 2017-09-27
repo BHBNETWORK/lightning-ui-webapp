@@ -15,11 +15,12 @@
 
             <md-input-container class="md-block">
                 <label>RHash</label>
-                <input required name="rhash" ng-model="ctrlSendPay.payment.rhash">
+                <input required name="rhash" ng-model="ctrlSendPay.payment.rhash" minlength="64" maxlength="64">
                 <div ng-messages="sendPayForm.rhash.$error">
                     <div ng-message="required">This is required.</div>
 
-                    <!-- TODO: validate rhash -->
+                    <div ng-message="minlength">Invalid RHash.</div>
+                    <div ng-message="maxlength">Invalid RHash.</div>
                 </div>
             </md-input-container>
 
@@ -50,11 +51,10 @@
                 <md-input-container class="md-block">
                     <label>Node</label>
                     <input ng-required="ctrlSendPay.payment.autoRoute" name="node"
-                           ng-model="ctrlSendPay.payment.nodeid">
+                           ng-model="ctrlSendPay.payment.nodeid" nodeid-validation>
                     <div ng-messages="sendPayForm.node.$error">
                         <div ng-message="required">This is required.</div>
-
-                        <!-- TODO: validate nodeid -->
+                        <div ng-message="nodeidValidation">Invalid NodeID.</div>
                     </div>
                 </md-input-container>
 
