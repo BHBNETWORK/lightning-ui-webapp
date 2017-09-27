@@ -23,10 +23,12 @@ h4.text-under-logo {
 
 .widget-card {
     height: auto;
+    margin: 8px;
 }
 
 .widget-card > md-card {
-    height: calc(100% - 16px);
+    height: 100%;
+    margin: 0;
 }
 
 md-card-content.widget-content {

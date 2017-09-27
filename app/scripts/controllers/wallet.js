@@ -12,10 +12,18 @@ angular.module('App')
         $rootScope.$emit('page-title', 'Wallet');
 
         $scope.addfunds = {
-            amount: 0,
+            amount: '',
             autorawtx: true,
             rawtx: '',
             creatingTx: false,
+            loading: false
+        };
+
+        $scope.withdraw = {
+            amount: '',
+            address: '',
+            autoaddress: true,
+            generatingAddress: false,
             loading: false
         };
 
@@ -23,10 +31,28 @@ angular.module('App')
         $scope.loadingPeers = false;
 
         function resetAddFunds() {
-            $scope.addfunds.amount = 0;
-            $scope.addfunds.autorawtx = false;
-            $scope.addfunds.rawtx = '';
-            $scope.addfunds.creatingTx = false;
+            $scope.addfunds = {
+                amount: '',
+                autorawtx: true,
+                rawtx: '',
+                creatingTx: false,
+                loading: false
+            };
+
+            $scope.addFundsForm.$setPristine();
+            $scope.addFundsForm.$setUntouched();
+        }
+
+        function resetWithdraw() {
+            $scope.withdraw = {
+                amount: '',
+                autoaddress: true,
+                generatingAddress: false,
+                loading: false
+            };
+
+            $scope.withdrawForm.$setPristine();
+            $scope.withdrawForm.$setUntouched();
         }
 
         $scope.refreshPeers = function () {
@@ -40,7 +66,6 @@ angular.module('App')
                     $scope.loadingPeers = false;
                 });
         };
-
         $scope.refreshPeers();
 
         $scope.confirmAddFunds = function () {
@@ -49,7 +74,7 @@ angular.module('App')
             $scope.addfunds.loading = true;
 
             var rawTxPromise = $q.resolve({rawtx: $scope.addfunds.rawtx});
-            if (!$scope.addfunds.rawtx) {
+            if ($scope.addfunds.autorawtx) {
                 $scope.addfunds.creatingTx = true;
 
                 rawTxPromise = LightningService.getNewAddress()
@@ -82,6 +107,44 @@ angular.module('App')
                 })
                 .finally(function () {
                     $scope.addfunds.loading = false;
+                });
+        };
+
+        $scope.confirmWithdraw = function () {
+            // TODO: alert(?)
+
+            $scope.withdraw.loading = true;
+
+            var addressPromise = $q.resolve({address: $scope.withdraw.address});
+            if ($scope.withdraw.autoaddress) {
+                $scope.withdraw.generatingAddress = true;
+
+                addressPromise = BitcoinService.getNewAddress()
+                    .finally(function () {
+                        $scope.withdraw.generatingAddress = false;
+                    });
+            }
+
+            addressPromise
+                .then(function (address) {
+                    return LightningService.withdraw($scope.withdraw.amount, address.address);
+                })
+                .then(function (response) {
+                    console.log(response);
+
+                    $mdToast.show(
+                        $mdToast.simple()
+                            .textContent('Sent ' + response.satoshis + ' SAT to your Bitcoin wallet')
+                            .highlightAction(true)
+                            .position('bottom right')
+                            .hideDelay(false)
+                            .action('Close')
+                    );
+
+                    resetWithdraw();
+                })
+                .finally(function () {
+                    $scope.withdraw.loading = false;
                 });
         };
 

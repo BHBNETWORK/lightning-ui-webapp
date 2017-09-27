@@ -62,7 +62,7 @@
 </div>
 
 <div layout="coulumn" layout-fill class="layout-fill-height-fix">
-    <md-card class="widget-card" flex="100">
+    <md-card class="widget-card" flex="50">
         <md-progress-linear ng-show="loadingPeers" md-mode="indeterminate"></md-progress-linear>
         <md-card-header ng-class="loadingPeers ? 'loading' : ''">
             <md-card-avatar>
@@ -94,6 +94,63 @@
                     </md-button>
                 </md-list-item>
             </md-list>
+        </md-card-content>
+    </md-card>
+
+    <md-card class="widget-card" flex="50">
+        <md-progress-linear ng-show="loadingWithdraw" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="loadingWithdraw ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">backup</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Withdraw</span>
+                <span class="md-subhead">Send funds to a Bitcoin address</span>
+            </md-card-header-text>
+        </md-card-header>
+
+        <md-card-content class="widget-content" style="height: calc(100% - 60px); position: relative;">
+            <form name="withdrawForm">
+                <md-input-container class="md-block">
+                    <label>Amount</label>
+                    <input type="number" required name="amount" ng-model="withdraw.amount" min="1">
+                    <div ng-messages="withdrawForm.amount.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="min">Invalid amount.</div>
+                    </div>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between center">
+                    <md-input-container flex="80">
+                        <label>Address</label>
+                        <input ng-required="!withdraw.autoaddress" ng-disabled="withdraw.autoaddress"
+                               name="address"
+                               ng-model="withdraw.address">
+                        <div ng-messages="withdrawForm.address.$error">
+                            <div ng-message="required">This is required.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex="20">
+                        <md-checkbox class="md-primary" ng-model="withdraw.autoaddress">
+                            Auto
+                            <md-tooltip md-delay="600" md-direction="top">
+                                Automatically generate a new address
+                            </md-tooltip>
+                        </md-checkbox>
+                    </md-input-container>
+                </div>
+
+                <div layout="row" layout-align="left center">
+                    <md-button style="margin: 0; position: absolute; bottom: 16px;" class="md-raised md-primary"
+                               ng-disabled="withdrawForm.$invalid"
+                               flex="1" ng-click="confirmWithdraw()">Confirm
+                    </md-button>
+                    <md-progress-circular ng-if="withdraw.generatingAddress" flex="98" class="half-size"
+                                          style="margin-left: 15px;"></md-progress-circular>
+                    <span ng-if="withdraw.generatingAddress" flex="1">Generating an address...</span>
+                </div>
+            </form>
         </md-card-content>
     </md-card>
 </div>

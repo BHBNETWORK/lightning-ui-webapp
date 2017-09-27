@@ -90,6 +90,15 @@ angular.module('App')
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
+        this.withdraw = function (amount, address) {
+            console.log(amount, address);
+            return ResourcesGeneratorService.getResource('lightning/withdraw').post({
+                amount: amount,
+                address: address
+            }).$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
+
         this.listInvoices = function () {
             return ResourcesGeneratorService.getResource('lightning/listinvoice').query().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
