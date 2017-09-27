@@ -115,12 +115,6 @@ angular.module('App')
                 nodeid: ''
             };
 
-            function resetNewNode() {
-                newNode.ip = '';
-                newNode.port = 10000;
-                newNode.nodeid = '';
-            }
-
             $mdDialog.show({
                 controller: 'DialogCtrl',
                 templateUrl: 'views/new_peer_dialog.html',
@@ -132,6 +126,7 @@ angular.module('App')
                         newNode: newNode,
                         confirmNewNode: function (ev) {
                             $rootScope.$emit('loading-start', ev);
+                            var _self = this;
 
                             LightningService.connect(newNode.ip, newNode.port, newNode.nodeid)
                                 .then(function () {
@@ -142,13 +137,17 @@ angular.module('App')
                                 })
                                 .finally(function () {
                                     $rootScope.$emit('loading-stop');
-                                    resetNewNode();
+
+                                    _self.close();
+
+                                    newNode = {};
+                                    _self.connectPeer.$setPristine();
+                                    _self.connectPeer.$setUntouched();
                                 });
                         }
                     }
                 }
-            })
-                .catch(resetNewNode); // reset the values
+            });
         };
 
         this.update();

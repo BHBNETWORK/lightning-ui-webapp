@@ -23,20 +23,23 @@
 
                     <md-input-container flex-gt-xs="25">
                         <label>Port</label>
-                        <input name="port" type="number" ng-model="newNode.port" required>
+                        <input name="port" type="number" ng-model="newNode.port" min="1" required>
                         <div ng-messages="connectPeer.port.$error">
                             <div ng-message="required">This is required.</div>
+                            <div ng-message="min">Invalid port.</div>
                         </div>
                     </md-input-container>
                 </div>
 
                 <md-input-container class="md-block">
                     <label>Node ID</label>
-                    <input name="nodeid" ng-model="newNode.nodeid" required>
+                    <input name="nodeid" ng-model="newNode.nodeid" minlength="66" maxlength="66" required>
                     <div ng-messages="connectPeer.nodeid.$error">
                         <div ng-message="required">This is required.</div>
 
-                        <!-- TODO: check nodeid-->
+                        <!-- TODO: make sure nodeIds are always 66 chars-long -->
+                        <div ng-message="minlength">Invalid Node ID.</div>
+                        <div ng-message="maxlength">Invalid Node ID.</div>
                     </div>
                 </md-input-container>
             </div>
