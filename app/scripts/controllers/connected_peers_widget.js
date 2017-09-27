@@ -156,4 +156,8 @@ angular.module('App')
         this.$destroy = function () {
             $interval.cancel(updateInterval);
         };
+
+        this.setPaymentRecipient = function (peerid) {
+            $rootScope.$emit('new-payment-recipient', peerid);
+        };
     });

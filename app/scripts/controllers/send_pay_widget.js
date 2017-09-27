@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('SendPayWidgetCtrl', function ($q, LightningService, $scope) {
+    .controller('SendPayWidgetCtrl', function ($q, LightningService, $scope, $rootScope) {
         var _self = this;
 
         this.loading = false;
@@ -20,6 +20,10 @@ angular.module('App')
             amount: null,
             riskFactor: 1
         };
+
+        $rootScope.$on('new-payment-recipient', function (_, peerid) {
+            _self.payment.nodeid = peerid;
+        });
 
         this.calculatingRoute = false;
 

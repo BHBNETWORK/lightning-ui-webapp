@@ -51,6 +51,11 @@
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
+                            <md-button ng-click="ctrlConnectedPeers.setPaymentRecipient(peer.peerid)">
+                                Set as payment recipient
+                            </md-button>
+                        </md-menu-item>
+                        <md-menu-item>
                             <md-button ng-disabled="peer.connected"
                                        ng-click="ctrlConnectedPeers.connect($event, peer.peerid, peer.netaddr);">
                                 Connect

@@ -6,7 +6,7 @@
         <md-progress-linear ng-show="addfunds.loading" md-mode="indeterminate"></md-progress-linear>
         <md-card-header ng-class="addfunds.loading ? 'loading' : ''">
             <md-card-avatar>
-                <md-icon class="md-avatar-icon">add</md-icon>
+                <md-icon class="md-avatar-icon">move_to_inbox</md-icon>
             </md-card-avatar>
             <md-card-header-text>
                 <span class="md-title">Add funds</span>
@@ -20,11 +20,10 @@
                 <md-input-container class="md-block">
                     <label>Amount</label>
                     <input type="number" ng-required="addfunds.autorawtx" name="amount" ng-model="addfunds.amount"
-                           ng-disabled="!addfunds.autorawtx">
+                           ng-disabled="!addfunds.autorawtx" min="1">
                     <div ng-messages="addFundsForm.amount.$error">
                         <div ng-message="required">This is required.</div>
-
-                        <!-- TODO: check > 0 && < confirmedBalance -->
+                        <div ng-message="min">Invalid amount.</div>
                     </div>
                 </md-input-container>
 
@@ -36,8 +35,6 @@
                                ng-model="addfunds.rawtx">
                         <div ng-messages="addFundsForm.route.$error">
                             <div ng-message="required">This is required.</div>
-
-                            <!-- TODO: check the rawtx -->
                         </div>
                     </md-input-container>
 
