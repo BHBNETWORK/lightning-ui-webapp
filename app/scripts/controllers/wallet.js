@@ -130,11 +130,9 @@ angular.module('App')
                     return LightningService.withdraw($scope.withdraw.amount, address.address);
                 })
                 .then(function (response) {
-                    console.log(response);
-
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent('Sent ' + response.satoshis + ' SAT to your Bitcoin wallet')
+                            .textContent('Created transacton #' + response.txid)
                             .highlightAction(true)
                             .position('bottom right')
                             .hideDelay(false)
