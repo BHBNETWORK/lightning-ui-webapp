@@ -38,21 +38,17 @@ angular
     })
     .config(function ($mdThemingProvider) {
         var newGreenMap = $mdThemingProvider.extendPalette('green', {
-            '500': '#2e7d32',
-            'contrastDefaultColor': 'light'
+            '500': '#26D03A',
+            contrastDefaultColor: 'dark',
+            contrastLightColors: ['50', '100', '200', '300', '400', 'A100']
         });
         $mdThemingProvider.definePalette('newGreen', newGreenMap);
 
-        var newOrangeMap = $mdThemingProvider.extendPalette('orange', {
-            'A200': '#f4511e',
-            'contrastDefaultColor': 'light'
-        });
-        $mdThemingProvider.definePalette('newOrange', newOrangeMap);
-
         $mdThemingProvider.theme('default')
             .primaryPalette('newGreen')
-            .accentPalette('newOrange')
-            .warnPalette('red');
+            .accentPalette('light-blue')
+            .warnPalette('amber')
+            .dark();
 
         $mdThemingProvider.enableBrowserColor({
             theme: 'default'

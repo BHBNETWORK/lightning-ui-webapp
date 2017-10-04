@@ -81,7 +81,7 @@
             </md-button>
         </md-card-header>
 
-        <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;">
+        <md-card-content class="widget-content no-padding scroll-box max-width-fix" style="min-height: 300px;">
             <md-list>
                 <md-list-item ng-repeat="peer in peers"
                               ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN' && peer.state !== 'CHANNELD_SHUTTING_DOWN'">

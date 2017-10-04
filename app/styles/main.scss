@@ -2,12 +2,14 @@
 // endbower
 
 img.logo {
-    width: 80%;
+    height: 48px;
     margin: 6px 10% 0 10%;
+    display: inline-block;
 }
 
-h4.text-under-logo {
-    margin: 0 0 6px 10%;
+h4.text-next-to-logo {
+    margin: 0 0 6px 6px;
+    display: inline-block;
 }
 
 .pointer {
@@ -64,7 +66,7 @@ md-card-header {
     text-transform: none;
     white-space: pre;
     padding: 5px;
-    background: #ececec;
+    background: #676767;
     border-radius: 3px;
     font-family: 'Roboto Mono', monospace;
     text-align: center;
@@ -107,6 +109,16 @@ span.nodeid {
 @media (min-width: 1280px) {
     span.nodeid {
         max-width: 27vw;
+    }
+}
+
+.max-width-fix {
+    max-width: 45vw;
+}
+
+@media (min-width: 1280px) {
+    .max-width-fix {
+        max-width: 37vw;
     }
 }
 
