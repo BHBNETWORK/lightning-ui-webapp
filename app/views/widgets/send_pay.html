@@ -28,7 +28,7 @@
                 <md-input-container flex="80">
                     <label>Route</label>
                     <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"
-                           name="route" route-validation
+                           name="route" route-validation disable-route-validation="ctrlSendPay.payment.autoRoute"
                            ng-model="ctrlSendPay.payment.route">
                     <div ng-messages="sendPayForm.route.$error">
                         <div ng-message="required">This is required.</div>

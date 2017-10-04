@@ -11,6 +11,10 @@ angular.module('App')
     .directive('routeValidation', function () {
         function link(scope, element, attrs, ngModel) {
             ngModel.$validators.routeValidation = function (value) {
+                if (scope.disableRouteValidation) {
+                    return true;
+                }
+
                 try {
                     var parsedObj = JSON.parse(value);
                     return Array.isArray(parsedObj) &&
@@ -29,6 +33,9 @@ angular.module('App')
         return {
             link: link,
             restrict: 'A',
-            require: 'ngModel'
+            require: 'ngModel',
+            scope: {
+                disableRouteValidation: '='
+            }
         };
     });
