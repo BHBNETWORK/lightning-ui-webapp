@@ -29,16 +29,17 @@
 
         <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
             <span flex="35">Confirmed balance:</span>
-            <span flex="65" style="text-align: right;">{{ctrlWallet.confirmedBalance}} XBT</span>
+            <span flex="65" style="text-align: right;">{{ctrlWallet.confirmedBalance | AmountUnitFilter : 'SAT'}}</span>
         </div>
         <div layout="row" class="widget-line" layout-align="center center">
             <span flex="35">Unconfirmed balance:</span>
-            <span flex="65" style="text-align: right;">{{ctrlWallet.unconfirmedBalance}} XBT</span>
+            <span flex="65"
+                  style="text-align: right;">{{ctrlWallet.unconfirmedBalance | AmountUnitFilter : 'SAT'}}</span>
         </div>
 
         <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
             <span flex="35">Lightning funds:</span>
-            <span flex="65" style="text-align: right;">{{ctrlWallet.lightningFunds}} XBT</span>
+            <span flex="65" style="text-align: right;">{{ctrlWallet.lightningFunds | AmountUnitFilter : 'SAT'}}</span>
         </div>
     </md-card-content>
 </md-card>
