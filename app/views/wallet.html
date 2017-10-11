@@ -17,17 +17,18 @@
         <md-card-content class="widget-content">
             <form name="addFundsForm">
 
-                <md-input-container class="md-block">
+                <md-input-container class="md-block md-icon-right">
                     <label>Amount</label>
                     <input type="number" ng-required="addfunds.autorawtx" name="amount" ng-model="addfunds.amount"
-                           ng-disabled="!addfunds.autorawtx" min="1">
+                           ng-disabled="!addfunds.autorawtx" min="1" amount-unit-converter="SAT">
+                    <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
                     <div ng-messages="addFundsForm.amount.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="min">Invalid amount.</div>
                     </div>
                 </md-input-container>
 
-                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advanced_mode')">
+                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
                     <md-input-container flex="80">
                         <label>RawTX</label>
                         <input ng-required="!addfunds.autorawtx" ng-disabled="addfunds.autorawtx"
@@ -111,16 +112,18 @@
 
         <md-card-content class="widget-content" style="height: calc(100% - 60px); position: relative;">
             <form name="withdrawForm">
-                <md-input-container class="md-block">
+                <md-input-container class="md-block md-icon-right">
                     <label>Amount</label>
-                    <input type="number" required name="amount" ng-model="withdraw.amount" min="1">
+                    <input type="number" required name="amount" ng-model="withdraw.amount" min="1"
+                           amount-unit-converter="SAT">
+                    <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
                     <div ng-messages="withdrawForm.amount.$error">
                         <div ng-message="required">This is required.</div>
                         <div ng-message="min">Invalid amount.</div>
                     </div>
                 </md-input-container>
 
-                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advanced_mode')">
+                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
                     <md-input-container flex="80">
                         <label>Address</label>
                         <input ng-required="!withdraw.autoaddress" ng-disabled="withdraw.autoaddress"

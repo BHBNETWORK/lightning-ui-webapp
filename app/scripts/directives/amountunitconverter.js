@@ -13,6 +13,12 @@ angular.module('App')
             require: 'ngModel',
             link: function (scope, element, attrs, modelCtrl) {
                 modelCtrl.$parsers.push(function (inputValue) {
+                    try {
+                        inputValue = parseInt(inputValue);
+                    } catch (e) {
+                        inputValue = 0;
+                    }
+
                     var convertedInput = 0;
 
                     if (typeof inputValue === 'number' && !isNaN(inputValue)) {

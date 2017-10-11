@@ -13,7 +13,7 @@ angular.module('App')
 
         this.get = function (key) {
             if (!(key in settings)) {
-                throw 'invalid_key';
+                return null;
             }
 
             return settings[key];

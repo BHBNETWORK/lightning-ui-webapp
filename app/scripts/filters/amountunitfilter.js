@@ -19,7 +19,11 @@ angular.module('App')
                 return '-';
             }
 
-            return UnitConversionService.convert(amount, valueUnit, SettingsService.get('unit')).toFixed(4) +
-                (printUnit ? ' ' + SettingsService.get('unit') : '');
+            var convertedAmount = UnitConversionService.convert(amount, valueUnit, SettingsService.get('unit'));
+            if (SettingsService.get('unit') === 'XBT') {
+                convertedAmount = convertedAmount.toFixed(8);
+            }
+
+            return convertedAmount + (printUnit ? ' ' + SettingsService.get('unit') : '');
         };
     });

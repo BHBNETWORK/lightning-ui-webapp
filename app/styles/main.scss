@@ -142,3 +142,12 @@ md-card-content.scroll-box {
     overflow-x: hidden;
     overflow-y: scroll;
 }
+
+span.input-unit-name {
+    position: absolute;
+    left: auto;
+    font-size: 14px;
+
+    margin-left: 3px;
+    bottom: 28px;
+}

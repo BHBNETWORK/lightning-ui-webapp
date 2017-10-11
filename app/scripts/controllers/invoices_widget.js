@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('InvoicesWidgetCtrl', function ($interval, LightningService, $mdToast, $mdDialog) {
+    .controller('InvoicesWidgetCtrl', function ($interval, LightningService, $mdToast, $mdDialog, SettingsService) {
         var _self = this;
 
         var UPDATE_DELAY = 120 * 1000;
@@ -81,9 +81,11 @@ angular.module('App')
                 locals: {
                     items: {
                         newInvoice: newInvoice,
+                        SettingsService: SettingsService,
                         confirm: function () {
                             _self.loading = true;
 
+                            console.log(newInvoice.amount);
                             LightningService.createInvoice(newInvoice.amount, newInvoice.label)
                                 .then(function (rhash) {
                                     _self.update();

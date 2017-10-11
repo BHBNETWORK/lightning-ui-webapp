@@ -8,7 +8,7 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, BitcoinService, LightningService, $mdToast, $mdDialog) {
+    .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, BitcoinService, LightningService, $mdToast, $mdDialog, SettingsService, UnitConversionService) {
         $rootScope.$emit('page-title', 'Wallet');
 
         $scope.addfunds = {
@@ -94,9 +94,11 @@ angular.module('App')
                     return LightningService.addFunds(rawtx.rawtx);
                 })
                 .then(function (response) {
+                    var convertedValue = UnitConversionService.convert(response.satoshis, 'SAT', SettingsService.get('unit'));
+
                     $mdToast.show(
                         $mdToast.simple()
-                            .textContent('Added ' + response.satoshis + ' SAT to your Lightning wallet')
+                            .textContent('Added ' + convertedValue + ' ' + SettingsService.get('unit') + ' to your Lightning wallet')
                             .highlightAction(true)
                             .position('bottom right')
                             .hideDelay(false)
@@ -148,8 +150,8 @@ angular.module('App')
 
         $scope.fundChannel = function (ev, peerid) {
             var setAmount = $mdDialog.prompt()
-                .title('Choose the amount of satoshi to move')
-                .htmlContent('<p>Set the amount of satoshi you want to move into the channel with <span class="code height-2-2">' + peerid + '</span></p>')
+                .title('Choose the amount of ' + SettingsService.get('unit') + ' to move')
+                .htmlContent('<p>Set the amount of ' + SettingsService.get('unit') + ' you want to move into the channel with <span class="code height-2-2">' + peerid + '</span></p>')
                 .placeholder('Amount')
                 .initialValue(0)
                 .targetEvent(ev)
