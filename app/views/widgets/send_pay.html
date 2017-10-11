@@ -24,7 +24,7 @@
                 </div>
             </md-input-container>
 
-            <div layout="row" layout-align="space-between center">
+            <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advanced_mode')">
                 <md-input-container flex="80">
                     <label>Route</label>
                     <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"

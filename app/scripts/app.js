@@ -32,6 +32,10 @@ angular
                 templateUrl: 'views/wallet.html',
                 controller: 'WalletCtrl'
             })
+            .when('/settings', {
+                templateUrl: 'views/settings.html',
+                controller: 'SettingsCtrl'
+            })
             .otherwise({
                 redirectTo: '/'
             });
@@ -55,5 +59,8 @@ angular
         });
     })
     .config(function (ConfigProvider) {
-        ConfigProvider.serverHost = 'http://127.0.0.1:19000/api';
+        ConfigProvider.serverHost = 'http://52.59.101.195:3000/api';
+    })
+    .run(function (SettingsService) {
+        return SettingsService.getRemoteSettings();
     });
