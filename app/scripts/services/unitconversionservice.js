@@ -10,12 +10,12 @@
 angular.module('App')
     .service('UnitConversionService', function () {
         var conversionRates = {
-            'XBT': 1e8,
-            'SAT': 1,
-            'mSAT': 1e-3
+            'XBT': 1e11,
+            'SAT': 1e3,
+            'mSAT': 1
         };
 
         this.convert = function (value, from, to) {
-            return value * conversionRates[from] / conversionRates[to];
+            return Math.round(value * conversionRates[from]) / conversionRates[to];
         };
     });

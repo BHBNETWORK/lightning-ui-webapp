@@ -22,6 +22,10 @@ angular.module('App')
             var convertedAmount = UnitConversionService.convert(amount, valueUnit, SettingsService.get('unit'));
             if (SettingsService.get('unit') === 'XBT') {
                 convertedAmount = convertedAmount.toFixed(8);
+            } else if (SettingsService.get('unit') === 'SAT') {
+                convertedAmount = convertedAmount.toFixed(3);
+            } else {
+                convertedAmount = Math.round(convertedAmount);
             }
 
             return convertedAmount + (printUnit ? ' ' + SettingsService.get('unit') : '');

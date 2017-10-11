@@ -13,19 +13,26 @@ angular.module('App')
             require: 'ngModel',
             link: function (scope, element, attrs, modelCtrl) {
                 modelCtrl.$parsers.push(function (inputValue) {
-                    try {
-                        inputValue = parseInt(inputValue);
-                    } catch (e) {
-                        inputValue = 0;
+                    var originalInputValue = inputValue;
+
+                    if (typeof inputValue !== 'number') {
+                        if (inputValue[inputValue.length - 1] === '.') {
+                            inputValue = inputValue.slice(0, -1);
+                        }
+
+                        try {
+                            inputValue = parseFloat(inputValue);
+                        } catch (e) {
+                            inputValue = 0;
+                        }
                     }
 
                     var convertedInput = 0;
-
-                    if (typeof inputValue === 'number' && !isNaN(inputValue)) {
+                    if (!isNaN(inputValue)) {
                         convertedInput = UnitConversionService.convert(inputValue, SettingsService.get('unit'), scope.amountUnitConverter);
                     }
 
-                    modelCtrl.$setViewValue(inputValue);
+                    modelCtrl.$setViewValue(originalInputValue);
                     modelCtrl.$render();
 
                     return convertedInput;

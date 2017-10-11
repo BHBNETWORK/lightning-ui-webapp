@@ -61,11 +61,10 @@
                     <md-input-container class="md-block md-icon-right" flex="50">
                         <label>Amount</label>
                         <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="amount"
-                               ng-model="ctrlSendPay.payment.amount" min="1" amount-unit-converter="SAT">
+                               ng-model="ctrlSendPay.payment.amount" amount-unit-converter="mSAT">
                         <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
                         <div ng-messages="sendPayForm.amount.$error">
                             <div ng-message="required">This is required.</div>
-                            <div ng-message="min">The amount must be a positive number.</div>
                         </div>
                     </md-input-container>
 

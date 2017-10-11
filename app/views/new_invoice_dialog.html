@@ -22,11 +22,10 @@
 
                 <md-input-container class="md-block md-icon-right">
                     <label>Amount</label>
-                    <input name="amount" ng-model="newInvoice.amount" required min="1" amount-unit-converter="SAT">
+                    <input name="amount" ng-model="newInvoice.amount" required amount-unit-converter="mSAT">
                     <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
                     <div ng-messages="newInvoiceForm.amount.$error">
                         <div ng-message="required">This is required.</div>
-                        <div ng-message="min">The amount must be positive.</div>
                     </div>
                 </md-input-container>
             </div>
