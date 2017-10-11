@@ -19,6 +19,10 @@ angular.module('App')
             return settings[key];
         };
 
+        this.getAllSettings = function () {
+            return settings;
+        };
+
         this.getRemoteSettings = function () {
             return ResourcesGeneratorService.getResource('settings').get().$promise
                 .then(function (response) {

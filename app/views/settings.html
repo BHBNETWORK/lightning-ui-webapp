@@ -1,0 +1,34 @@
+<md-card>
+    <md-card-title style="padding: 16px;">
+        <md-card-title-text>
+            <span class="md-headline">Settings</span>
+        </md-card-title-text>
+    </md-card-title>
+    <md-card-content>
+        <form name="settingsForm">
+            <md-input-container class="md-block" flex-gt-xs>
+                <label>Default unit</label>
+                <md-select ng-model="currentSettings.unit">
+                    <md-option ng-repeat="unit in validUnits" value="{{unit}}">
+                        {{unit}}
+                    </md-option>
+                </md-select>
+            </md-input-container>
+
+            <md-input-container class="md-block" flex-gt-xs>
+                <md-checkbox class="md-primary" ng-model="currentSettings.advancedMode" aria-label="Expert mode">
+                    Expert mode
+                </md-checkbox>
+            </md-input-container>
+        </form>
+    </md-card-content>
+    <md-card-actions layout="row" layout-align="start center">
+        <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="loading">
+            <span ng-if="!loading">Save</span>
+            <span ng-if="loading">
+                <md-progress-circular style="left: 11px; top: -3.5px;" flex="98"
+                                      class="half-size"></md-progress-circular>
+            </span>
+        </md-button>
+    </md-card-actions>
+</md-card>
