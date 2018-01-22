@@ -24,7 +24,7 @@ angular.module('App')
 
             LightningService.listInvoices()
                 .then(function (response) {
-                    _self.invoices = response;
+                    _self.invoices = response.invoices;
                     _self.lastUpdate = new Date();
                     _self.loading = false;
                 })

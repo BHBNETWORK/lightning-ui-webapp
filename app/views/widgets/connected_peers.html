@@ -30,7 +30,7 @@
                     {{ctrlConnectedPeers.getIcon(peer.state)}}
                 </md-icon>
 
-                <span class="code nodeid">{{peer.peerid}}</span>
+                <span class="code nodeid">{{peer.id}}</span>
 
                 <md-menu class="md-secondary">
                     <md-button ng-click="$mdMenu.open($event)" class="md-icon-button">
@@ -38,32 +38,32 @@
                     </md-button>
                     <md-menu-content>
                         <md-menu-item>
-                            <md-button ng-click="ctrlConnectedPeers.peerInfoDialog($event, peer.peerid, $index);">
+                            <md-button ng-click="ctrlConnectedPeers.peerInfoDialog($event, peer.id, $index);">
                                 More informations
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button
-                                data-clipboard-text="{{peer.peerid}}"
+                                data-clipboard-text="{{peer.id}}"
                                 ngclipboard-success="ctrlConnectedPeers.copiedToClipboard()"
                                 ngclipboard>
                                 Copy node ID
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
-                            <md-button ng-click="ctrlConnectedPeers.setPaymentRecipient(peer.peerid)">
+                            <md-button ng-click="ctrlConnectedPeers.setPaymentRecipient(peer.id)">
                                 Set as payment recipient
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-disabled="peer.connected"
-                                       ng-click="ctrlConnectedPeers.connect($event, peer.peerid, peer.netaddr);">
+                                       ng-click="ctrlConnectedPeers.connect($event, peer.id, peer.netaddr);">
                                 Connect
                             </md-button>
                         </md-menu-item>
                         <md-menu-item>
                             <md-button ng-disabled="peer.state !== 'CHANNELD_NORMAL'"
-                                       ng-click="ctrlConnectedPeers.showConfirm($event, peer.peerid, $index);">
+                                       ng-click="ctrlConnectedPeers.showConfirm($event, peer.id, $index);">
                                 Close channel
                             </md-button>
                         </md-menu-item>

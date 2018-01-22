@@ -22,7 +22,7 @@ angular.module('App')
         this.update = function () {
             _self.loading = true;
 
-            LightningService.getPeers()
+            LightningService.listPeers()
                 .then(function (response) {
                     _self.peers = response.peers;
 

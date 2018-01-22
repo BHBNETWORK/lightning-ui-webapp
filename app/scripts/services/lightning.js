@@ -16,18 +16,18 @@ angular.module('App')
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
-        this.getPeers = function () {
-            return ResourcesGeneratorService.getResource('lightning/getpeers').get().$promise
+        this.listPeers = function () {
+            return ResourcesGeneratorService.getResource('lightning/listpeers').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
-        this.getNodes = function () {
-            return ResourcesGeneratorService.getResource('lightning/getnodes').get().$promise
+        this.listNodes = function () {
+            return ResourcesGeneratorService.getResource('lightning/listnodes').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
-        this.getChannels = function () {
-            return ResourcesGeneratorService.getResource('lightning/getchannels').get().$promise
+        this.listChannels = function () {
+            return ResourcesGeneratorService.getResource('lightning/listchannels').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 
@@ -100,7 +100,7 @@ angular.module('App')
         };
 
         this.listInvoices = function () {
-            return ResourcesGeneratorService.getResource('lightning/listinvoice').query().$promise
+            return ResourcesGeneratorService.getResource('lightning/listinvoices').get().$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
 

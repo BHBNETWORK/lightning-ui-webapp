@@ -58,7 +58,7 @@ angular.module('App')
         $scope.refreshPeers = function () {
             $scope.loadingPeers = true;
 
-            return LightningService.getPeers()
+            return LightningService.listPeers()
                 .then(function (list) {
                     $scope.peers = list.peers;
                 })

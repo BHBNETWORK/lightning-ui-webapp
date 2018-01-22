@@ -36,8 +36,8 @@ angular.module('App')
             $rootScope.$emit('loading-stop');
 
             var errorString = null;
-            if (errorResponse && errorResponse.data && errorResponse.data.error && typeof errorResponse.data.error === 'string') {
-                errorString = errorResponse.data.error;
+            if (errorResponse && errorResponse.data && errorResponse.data.error && errorResponse.data.error.message && typeof errorResponse.data.error.message === typeof ('string') ) {
+                errorString = errorResponse.data.error.message;
             }
 
             if (lastErrorPopup.$$state.status === 0) {
