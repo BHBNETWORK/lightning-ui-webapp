@@ -1,6 +1,7 @@
 {
     "name": "lightning-ui-webapp",
     "private": true,
+    "author": "Alekos Filini <alekos.filini@gmail.com>",
     "devDependencies": {
         "autoprefixer-core": "^5.2.1",
         "grunt": "^0.4.5",
