@@ -59,7 +59,7 @@ angular
         });
     })
     .config(function (ConfigProvider) {
-        ConfigProvider.serverHost = 'http://127.0.0.1:19000/api';
+        ConfigProvider.serverHost = 'http://127.0.0.1:9000/api';
     })
     .run(function ($rootScope, SettingsService) {
         $rootScope.SettingsService = SettingsService;
