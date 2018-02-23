@@ -1,4 +1,8 @@
-# lightning-ui-webapp
+# WARNING
+
+This software is for testing and demonstration purposes only. This software and c-lightning are still very new and contain known and unknown bugs. In particular, be warned: YOU MAY LOSE FUNDS!
+
+# Lightning UI - webapp
 
 This project is generated with [yo angular generator](https://github.com/yeoman/generator-angular)
 version 0.16.0.
