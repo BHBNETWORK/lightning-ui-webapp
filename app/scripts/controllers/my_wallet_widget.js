@@ -24,32 +24,23 @@ angular.module('App')
         this.lightningFunds = 0;
 
         this.updateAddresses = function (){
-            if ('undefined' === typeof (window.localStorage.bitcoinAddress)){
-                const promises = [BitcoinService.getNewAddress()];
-                $q.all(promises)
-                    .then(function (response) {
-                        window.localStorage.bitcoinAddress = _self.bitcoinAddress = response[0].address;
-                    })
-                    .catch(function (err) {
-                        console.log (JSON.stringify (err));
-                    });
-            }
-            else{
-                this.bitcoinAddress = window.localStorage.bitcoinAddress;
-            }
-            if ('undefined' === typeof (window.localStorage.lightningAddress)){
-                const promises = [LightningService.getNewAddress()];
-                $q.all(promises)
-                    .then(function (response) {
-                        window.localStorage.lightningAddress = _self.lightningAddress = response[0].address;
-                    })
-                    .catch(function (err) {
-                        console.log (JSON.stringify (err));
-                    });
-            }
-            else{
-                this.lightningAddress = window.localStorage.lightningAddress;
-            }
+            const updateAddress = function (address, service){
+                if ('undefined' === typeof (window.localStorage [address])){
+                    const promises = [service.getNewAddress()];
+                    $q.all(promises)
+                        .then(function (response) {
+                            window.localStorage [address] = _self [address] = response[0].address;
+                        })
+                        .catch(function (err) {
+                            console.log (JSON.stringify (err));
+                        });
+                }
+                else{
+                    _self [address] = window.localStorage [address];
+                }
+            };
+            updateAddress ('bitcoinAddress', BitcoinService);
+            updateAddress ('lightningAddress', LightningService);
         };
 
         this.update = function () {
