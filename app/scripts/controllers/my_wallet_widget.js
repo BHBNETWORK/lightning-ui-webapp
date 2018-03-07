@@ -76,7 +76,7 @@ angular.module('App')
 
             $q.all(promises)
                 .then(function (response) {
-                    _self [address] = response[0].address;
+                    window.localStorage [address] = _self [address] = response[0].address;
                 })
                 .catch(function (err) {
                     console.log (JSON.stringify (err));
