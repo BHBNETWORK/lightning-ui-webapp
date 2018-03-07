@@ -8,7 +8,12 @@
             <span class="md-title">Your wallet</span>
             <span class="md-subhead">Updated <span am-time-ago="ctrlWallet.lastUpdate"></span></span>
         </md-card-header-text>
-
+        <md-button class="md-icon-button" ng-click="ctrlWallet.update();">
+            <md-icon>refresh</md-icon>
+            <md-tooltip md-delay="600" md-direction="top">
+                Refresh the balance
+            </md-tooltip>
+        </md-button>
     </md-card-header>
 
     <md-card-content class="widget-content">
