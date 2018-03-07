@@ -83,7 +83,7 @@
 
             <div layout="row" layout-align="left center">
                 <md-button style="margin: 0;" class="md-raised md-primary" ng-disabled="sendPayForm.$invalid"
-                           flex="1" ng-click="ctrlSendPay.submit()">Send payment
+                           ng-click="ctrlSendPay.submit()">Send payment
                 </md-button>
                 <md-progress-circular ng-if="ctrlSendPay.calculatingRoute" flex="98" class="half-size"
                                       style="margin-left: 15px;"></md-progress-circular>
