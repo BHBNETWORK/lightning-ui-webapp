@@ -23,7 +23,36 @@ angular.module('App')
         this.unconfirmedBalance = 0;
         this.lightningFunds = 0;
 
-        this.update = function (newAddr) {
+        this.updateAddresses = function (){
+            if ('undefined' === typeof (window.localStorage.bitcoinAddress)){
+                const promises = [BitcoinService.getNewAddress()];
+                $q.all(promises)
+                    .then(function (response) {
+                        window.localStorage.bitcoinAddress = _self.bitcoinAddress = response[0].address;
+                    })
+                    .catch(function (err) {
+                        console.log (JSON.stringify (err));
+                    });
+            }
+            else{
+                this.bitcoinAddress = window.localStorage.bitcoinAddress;
+            }
+            if ('undefined' === typeof (window.localStorage.lightningAddress)){
+                const promises = [LightningService.getNewAddress()];
+                $q.all(promises)
+                    .then(function (response) {
+                        window.localStorage.lightningAddress = _self.lightningAddress = response[0].address;
+                    })
+                    .catch(function (err) {
+                        console.log (JSON.stringify (err));
+                    });
+            }
+            else{
+                this.lightningAddress = window.localStorage.lightningAddress;
+            }
+        };
+
+        this.update = function () {
             _self.loading = true;
 
             var promises = [
@@ -32,10 +61,7 @@ angular.module('App')
                 LightningService.getFundsSum()
             ];
 
-            if (newAddr) {
-                promises.push(LightningService.getNewAddress());
-                promises.push(BitcoinService.getNewAddress());
-            }
+            this.updateAddresses ();
 
             $q.all(promises)
                 .then(function (response) {
@@ -43,16 +69,12 @@ angular.module('App')
                     _self.unconfirmedBalance = response[1].balance * 1e8;
                     _self.lightningFunds = response[2];
 
-                    if (newAddr) {
-                        _self.lightningAddress = response[3].address;
-                        _self.bitcoinAddress = response[4].address;
-                    }
-
                     _self.lastUpdate = new Date();
                     _self.loading = false;
                 })
-                .catch(function () {
-                    _self.loading = false;
+                .catch(function (err) {
+                  console.log (JSON.stringify (err));
+                  _self.loading = false;
                 });
         };
         this.newBitcoinAddress = function(){
@@ -65,7 +87,7 @@ angular.module('App')
                     _self.bitcoinAddress = response[0].address;
                 })
                 .catch(function (err) {
-                    console.log (JSON.stringify ({err}));
+                    console.log (JSON.stringify (err));
                 });
         };
 
@@ -78,12 +100,11 @@ angular.module('App')
                 .then(function (response) {
                     _self.lightningAddress = response[0].address;
                 })
-                .catch(function () {
-                    console.log (JSON.stringify ({err}));
+                .catch(function (err) {
+                    console.log (JSON.stringify (err));
                 });
         };
-
-        this.update(true);
+        this.update();
         updateInterval = $interval(this.update, UPDATE_DELAY, 0, true, false);
 
         this.$destroy = function () {
