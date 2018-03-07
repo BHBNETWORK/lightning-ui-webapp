@@ -46,7 +46,7 @@ angular.module('App')
         this.update = function () {
             _self.loading = true;
 
-            var promises = [
+            const promises = [
                 BitcoinService.getConfirmedBalance(),
                 BitcoinService.getUnconfirmedBalance(),
                 LightningService.getFundsSum()
@@ -68,33 +68,29 @@ angular.module('App')
                   _self.loading = false;
                 });
         };
-        this.newBitcoinAddress = function(){
+
+        this.newAddress = function (address, service){
             const promises = [
-                BitcoinService.getNewAddress()
+                service.getNewAddress()
             ];
 
             $q.all(promises)
                 .then(function (response) {
-                    _self.bitcoinAddress = response[0].address;
+                    _self [address] = response[0].address;
                 })
                 .catch(function (err) {
                     console.log (JSON.stringify (err));
                 });
+        };
+
+        this.newBitcoinAddress = function(){
+            _self.newAddress ('bitcoinAddress', BitcoinService);
         };
 
         this.newLightningAddress = function(){
-            const promises = [
-                LightningService.getNewAddress()
-            ];
-
-            $q.all(promises)
-                .then(function (response) {
-                    _self.lightningAddress = response[0].address;
-                })
-                .catch(function (err) {
-                    console.log (JSON.stringify (err));
-                });
+            _self.newAddress ('lightningAddress', LightningService);
         };
+
         this.update();
         updateInterval = $interval(this.update, UPDATE_DELAY, 0, true, false);
 
