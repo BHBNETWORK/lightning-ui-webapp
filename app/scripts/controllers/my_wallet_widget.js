@@ -55,6 +55,33 @@ angular.module('App')
                     _self.loading = false;
                 });
         };
+        this.newBitcoinAddress = function(){
+            const promises = [
+                BitcoinService.getNewAddress()
+            ];
+
+            $q.all(promises)
+                .then(function (response) {
+                    _self.bitcoinAddress = response[0].address;
+                })
+                .catch(function (err) {
+                    console.log (JSON.stringify ({err}));
+                });
+        };
+
+        this.newLightningAddress = function(){
+            const promises = [
+                LightningService.getNewAddress()
+            ];
+
+            $q.all(promises)
+                .then(function (response) {
+                    _self.lightningAddress = response[0].address;
+                })
+                .catch(function () {
+                    console.log (JSON.stringify ({err}));
+                });
+        };
 
         this.update(true);
         updateInterval = $interval(this.update, UPDATE_DELAY, 0, true, false);
