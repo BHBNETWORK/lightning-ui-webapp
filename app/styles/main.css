@@ -1,0 +1,168 @@
+/* line 4, ../sass/main.scss */
+img.logo {
+  height: 48px;
+  margin: 6px 10% 0 10%;
+  display: inline-block;
+}
+
+/* line 10, ../sass/main.scss */
+h4.text-next-to-logo {
+  margin: 0 0 6px 6px;
+  display: inline-block;
+}
+
+/* line 15, ../sass/main.scss */
+.pointer {
+  cursor: pointer;
+  outline: none;
+}
+
+/* line 20, ../sass/main.scss */
+.layout-fill-height-fix {
+  height: initial;
+  padding: 0;
+  min-height: initial;
+}
+
+/* line 26, ../sass/main.scss */
+.widget-card {
+  height: auto;
+  margin: 8px;
+}
+
+/* line 31, ../sass/main.scss */
+.widget-card > md-card {
+  height: 100%;
+  margin: 0;
+}
+
+/* line 36, ../sass/main.scss */
+md-card-content.widget-content {
+  padding-top: 0;
+}
+/* line 39, ../sass/main.scss */
+md-card-content.widget-content h2 {
+  margin: 0;
+}
+/* line 43, ../sass/main.scss */
+md-card-content.widget-content p {
+  margin-top: 0;
+  margin-bottom: 6px;
+}
+
+/* line 49, ../sass/main.scss */
+md-card-header {
+  padding: 16px !important;
+}
+/* line 52, ../sass/main.scss */
+md-card-header.loading {
+  padding-top: 11px !important;
+  /* progress bar height */
+}
+/* line 56, ../sass/main.scss */
+md-card-header md-card-header-text {
+  margin-left: 12px;
+}
+/* line 60, ../sass/main.scss */
+md-card-header button.md-button {
+  margin-right: 0 !important;
+}
+
+/* line 65, ../sass/main.scss */
+.code {
+  text-transform: none;
+  white-space: pre;
+  padding: 5px;
+  background: #676767;
+  border-radius: 3px;
+  font-family: 'Roboto Mono', monospace;
+  text-align: center;
+}
+/* line 74, ../sass/main.scss */
+.code.height-2-2 {
+  line-height: 2.2em;
+}
+
+/* line 79, ../sass/main.scss */
+.widget-line {
+  margin-top: 4px;
+}
+
+/* line 83, ../sass/main.scss */
+.half-size {
+  transform: scale(0.5);
+  height: 35px !important;
+}
+
+/* line 88, ../sass/main.scss */
+.no-padding {
+  padding: 0;
+}
+
+/* line 92, ../sass/main.scss */
+md-progress-linear.top-list-item {
+  position: absolute;
+  top: 0;
+  left: 0;
+}
+
+/* line 98, ../sass/main.scss */
+span.nodeid {
+  overflow-x: hidden;
+  max-width: 34vw;
+}
+
+@media (max-width: 600px) {
+  /* line 104, ../sass/main.scss */
+  span.nodeid {
+    max-width: 58vw;
+  }
+}
+@media (min-width: 1280px) {
+  /* line 110, ../sass/main.scss */
+  span.nodeid {
+    max-width: 27vw;
+  }
+}
+/* line 115, ../sass/main.scss */
+.max-width-fix {
+  max-width: 45vw;
+}
+
+@media (min-width: 1280px) {
+  /* line 120, ../sass/main.scss */
+  .max-width-fix {
+    max-width: 37vw;
+  }
+}
+/* line 125, ../sass/main.scss */
+.central {
+  position: absolute;
+  top: calc(50% - 25px);
+  left: calc(50% - 25px);
+  z-index: 1;
+}
+
+/* line 132, ../sass/main.scss */
+md-icon.md-avatar-icon.list-icon {
+  width: 25px;
+  height: 25px;
+}
+
+/* line 137, ../sass/main.scss */
+md-card-content.scroll-box {
+  flex-grow: 1;
+  flex-shrink: 1;
+  flex-basis: 0;
+  overflow-x: hidden;
+  overflow-y: scroll;
+}
+
+/* line 146, ../sass/main.scss */
+span.input-unit-name {
+  position: absolute;
+  left: auto;
+  font-size: 14px;
+  margin-left: 3px;
+  bottom: 28px;
+}
