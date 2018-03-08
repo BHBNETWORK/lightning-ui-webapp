@@ -6,6 +6,7 @@
         "autoprefixer-core": "^5.2.1",
         "grunt": "^0.4.5",
         "grunt-angular-templates": "^0.5.7",
+        "grunt-browserify": "^5.2.0",
         "grunt-concurrent": "^1.0.0",
         "grunt-contrib-clean": "^0.6.0",
         "grunt-contrib-compass": "^1.0.0",
@@ -18,6 +19,7 @@
         "grunt-contrib-jshint": "^0.11.0",
         "grunt-contrib-uglify": "^0.7.0",
         "grunt-contrib-watch": "^0.6.1",
+        "grunt-es6-transpiler": "^1.0.2",
         "grunt-filerev": "^2.1.2",
         "grunt-google-cdn": "^0.4.3",
         "grunt-jscs": "^1.8.0",
@@ -41,5 +43,8 @@
     },
     "scripts": {
         "test": "karma start test/karma.conf.js"
+    },
+    "dependencies": {
+        "bolt11": "git://github.com/bitcoinjs/bolt11.git#wip"
     }
 }

@@ -16,7 +16,8 @@ module.exports = function (grunt) {
     require('jit-grunt')(grunt, {
         useminPrepare: 'grunt-usemin',
         ngtemplates: 'grunt-angular-templates',
-        cdnify: 'grunt-google-cdn'
+        cdnify: 'grunt-google-cdn',
+        es6transpiler: 'grunt-es6-transpiler'
     });
 
     // Configurable paths for the application
@@ -39,7 +40,7 @@ module.exports = function (grunt) {
             },
             js: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['newer:jshint:all', 'newer:jscs:all'],
+                tasks: ['newer:jshint:all', 'newer:jscs:all', 'browserify', 'es6transpiler'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 }
@@ -84,6 +85,10 @@ module.exports = function (grunt) {
                             connect().use(
                                 '/app/styles',
                                 connect.static('./app/styles')
+                            ),
+                            connect().use(
+                                '/browserified',
+                                connect.static('.tmp/browserified')
                             ),
                             connect.static(appConfig.app)
                         ];
@@ -393,6 +398,35 @@ module.exports = function (grunt) {
             }
         },
 
+        // Browserify needed to load NPM modules in Angular
+        browserify: {
+            bolt11: {
+                src: ['<%= yeoman.app %>/scripts/directives/bolt11.js'],
+                dest: '.tmp/browserified/bolt11.browserified.js',
+                options: {
+                    require: ['bolt11'],
+                    browserifyOptions: {
+                        standalone: 'Bundle'
+                    }
+                },
+                files: {
+                    'bundle.js': []
+                }
+            }
+        },
+
+        es6transpiler: {
+            bolt11: {
+                files: {
+                    '.tmp/browserified/bolt11.browserified.js': '.tmp/browserified/bolt11.browserified.js'
+                },
+                options: {
+                    disallowDuplicated: false,
+                    disallowUnknownReferences: false
+                }
+            }
+        },
+
         // Run some tasks in parallel to speed up the build process
         concurrent: {
             server: [],
@@ -420,6 +454,8 @@ module.exports = function (grunt) {
 
         grunt.task.run([
             'clean:server',
+            'browserify',
+            'es6transpiler',
             'wiredep',
             'concurrent:server',
             'postcss:server',
@@ -435,6 +471,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('test', [
         'clean:server',
+        'browserify',
+        'es6transpiler',
         'wiredep',
         'concurrent:test',
         'postcss',
@@ -444,6 +482,8 @@ module.exports = function (grunt) {
 
     grunt.registerTask('build', [
         'clean:dist',
+        'browserify',
+        'es6transpiler',
         'wiredep',
         'useminPrepare',
         'concurrent:dist',
