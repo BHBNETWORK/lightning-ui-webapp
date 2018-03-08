@@ -134,4 +134,15 @@ angular.module('App')
             }).$promise
                 .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
         };
+
+        this.pay = function (payreq, msatoshi, description, riskfactor, maxfeepercent) {
+            return ResourcesGeneratorService.getResource('lightning/pay').post({
+                payreq: payreq,
+                msatoshi: msatoshi,
+                description: description,
+                riskfactor: riskfactor,
+                maxfeepercent: maxfeepercent
+            }).$promise
+                .then(ResourcesGeneratorService.successHandler, ResourcesGeneratorService.failureHandler);
+        };
     });

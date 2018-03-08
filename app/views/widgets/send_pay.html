@@ -8,82 +8,171 @@
             <span class="md-title">Pay an invoice</span>
             <span class="md-subhead">Send a payment to a Lightning node</span>
         </md-card-header-text>
+        <md-button class="md-icon-button" ng-click="ctrlSendPay.switchMode();">
+            <md-icon>switch_camera</md-icon>
+            <md-tooltip md-delay="600" md-direction="top">
+                Switch mode
+            </md-tooltip>
+        </md-button>
     </md-card-header>
 
     <md-card-content class="widget-content">
         <form name="sendPayForm">
-
-            <md-input-container class="md-block">
-                <label>RHash</label>
-                <input required name="rhash" ng-model="ctrlSendPay.payment.rhash" minlength="64" maxlength="64">
-                <div ng-messages="sendPayForm.rhash.$error">
-                    <div ng-message="required">This is required.</div>
-
-                    <div ng-message="minlength">Invalid RHash.</div>
-                    <div ng-message="maxlength">Invalid RHash.</div>
-                </div>
-            </md-input-container>
-
-            <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
-                <md-input-container flex="80">
-                    <label>Route</label>
-                    <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"
-                           name="route" route-validation disable-route-validation="ctrlSendPay.payment.autoRoute"
-                           ng-model="ctrlSendPay.payment.route">
-                    <div ng-messages="sendPayForm.route.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="routeValidation">Invalid route.</div>
-                    </div>
-                </md-input-container>
-
-                <md-input-container flex="20">
-                    <md-checkbox class="md-primary" ng-model="ctrlSendPay.payment.autoRoute">
-                        Auto
-                        <md-tooltip md-delay="600" md-direction="top">
-                            Automatically calculate the route
-                        </md-tooltip>
-                    </md-checkbox>
-                </md-input-container>
-            </div>
-
-            <div ng-show="ctrlSendPay.payment.autoRoute">
+            <div ng-if="ctrlSendPay.mode === 'bolt11'">
                 <md-input-container class="md-block">
-                    <label>Node</label>
-                    <input ng-required="ctrlSendPay.payment.autoRoute" name="node"
-                           ng-model="ctrlSendPay.payment.nodeid" nodeid-validation>
-                    <div ng-messages="sendPayForm.node.$error">
+                    <label>BOLT11 Payment Request</label>
+                    <textarea required name="payreq" ng-model="ctrlSendPay.bolt11.payreq" bolt11></textarea>
+                    <div ng-messages="sendPayForm.payreq.$error">
                         <div ng-message="required">This is required.</div>
-                        <div ng-message="nodeidValidation">Invalid NodeID.</div>
+                        <div ng-message="bolt11">This is not a valid BOLT11 Payment Request.</div>
                     </div>
                 </md-input-container>
 
-                <div layout="row" layout-align="space-between center">
-                    <md-input-container class="md-block md-icon-right" flex="50">
-                        <label>Amount</label>
-                        <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="amount"
-                               ng-model="ctrlSendPay.payment.amount" amount-unit-converter="mSAT">
-                        <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
-                        <div ng-messages="sendPayForm.amount.$error">
+                <md-input-container class="md-block"
+                                    ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.satoshis === null">
+                    <label>Amount</label>
+                    <input required name="msatoshi" ng-model="ctrlSendPay.bolt11.msatoshi" amount-unit-converter="mSAT">
+                    <div ng-messages="sendPayForm.msatoshi.$error">
+                        <div ng-message="required">The amount is required.</div>
+                    </div>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
+                    <md-input-container flex="50">
+                        <label>Risk factor</label>
+                        <input required name="riskfactor" ng-model="ctrlSendPay.bolt11.riskfactor">
+                        <div ng-messages="sendPayForm.riskfactor.$error">
                             <div ng-message="required">This is required.</div>
                         </div>
                     </md-input-container>
 
-
-                    <md-input-container class="md-block" flex="50">
-                        <label>Risk Factor</label>
-                        <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="riskFactor"
-                               ng-model="ctrlSendPay.payment.riskFactor" min="0">
-                        <div ng-messages="sendPayForm.riskFactor.$error">
+                    <md-input-container flex="50">
+                        <label>Max fee percent</label>
+                        <input required name="maxfeepercent" ng-model="ctrlSendPay.bolt11.maxfeepercent">
+                        <div ng-messages="sendPayForm.maxfeepercent.$error">
                             <div ng-message="required">This is required.</div>
-                            <div ng-message="min">The riskfactor cannot be negative.</div>
                         </div>
                     </md-input-container>
                 </div>
+
+                <md-input-container layout="column" layout-align="space-between stretch">
+                    <!-- Display the amount -->
+                    <div layout="column" layout-align="space-between stretch" class="widget-line bottom big"
+                         ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.satoshis">
+
+                        <span flex="100" style="margin-bottom: 4px;">Amount:</span>
+                        <span flex="100"
+                              class="code">{{ctrlSendPay.bolt11.payreq.satoshis | AmountUnitFilter : 'SAT'}}</span>
+                    </div>
+
+                    <!-- Display the description -->
+                    <div layout="column" layout-align="space-between stretch" class="widget-line bottom big"
+                         ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.parsedDescription">
+
+                        <span flex="100" style="margin-bottom: 4px;">Description:</span>
+                        <span flex="100" class="code">{{ctrlSendPay.bolt11.payreq.parsedDescription}}</span>
+                    </div>
+
+                    <!-- Display the fallback address -->
+                    <div layout="column" layout-align="space-between stretch" class="widget-line bottom big"
+                         ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.fallbackAddress">
+
+                        <span flex="100" style="margin-bottom: 4px;">Fallback Address:</span>
+                        <span flex="100" class="code">{{ctrlSendPay.bolt11.payreq.fallbackAddress.address}}</span>
+                    </div>
+
+                    <!-- Display the expire time -->
+                    <div layout="column" layout-align="space-between stretch" class="widget-line bottom big"
+                         ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.expireTime">
+
+                        <span flex="100" style="margin-bottom: 4px;">Time left:</span>
+                        <span flex="100" class="code" ng-if="ctrlSendPay.bolt11.timeLeft > 0">{{ctrlSendPay.bolt11.timeLeft}} s</span>
+                        <span flex="100" class="code" ng-if="ctrlSendPay.bolt11.timeLeft <= 0">-- EXPIRED --</span>
+                    </div>
+                </md-input-container>
             </div>
 
+            <!-- Advanced mode -->
+            <div ng-if="ctrlSendPay.mode === 'advanced'">
+                <md-input-container class="md-block">
+                    <label>RHash</label>
+                    <input required name="rhash" ng-model="ctrlSendPay.payment.rhash" minlength="64" maxlength="64">
+                    <div ng-messages="sendPayForm.rhash.$error">
+                        <div ng-message="required">This is required.</div>
+
+                        <div ng-message="minlength">Invalid RHash.</div>
+                        <div ng-message="maxlength">Invalid RHash.</div>
+                    </div>
+                </md-input-container>
+
+                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
+                    <md-input-container flex="80">
+                        <label>Route</label>
+                        <input ng-required="!ctrlSendPay.payment.autoRoute" ng-disabled="ctrlSendPay.payment.autoRoute"
+                               name="route" route-validation disable-route-validation="ctrlSendPay.payment.autoRoute"
+                               ng-model="ctrlSendPay.payment.route">
+                        <div ng-messages="sendPayForm.route.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="routeValidation">Invalid route.</div>
+                        </div>
+                    </md-input-container>
+
+                    <md-input-container flex="20">
+                        <md-checkbox class="md-primary" ng-model="ctrlSendPay.payment.autoRoute">
+                            Auto
+                            <md-tooltip md-delay="600" md-direction="top">
+                                Automatically calculate the route
+                            </md-tooltip>
+                        </md-checkbox>
+                    </md-input-container>
+                </div>
+
+                <div ng-show="ctrlSendPay.payment.autoRoute">
+                    <md-input-container class="md-block">
+                        <label>Node</label>
+                        <input ng-required="ctrlSendPay.payment.autoRoute" name="node"
+                               ng-model="ctrlSendPay.payment.nodeid" nodeid-validation>
+                        <div ng-messages="sendPayForm.node.$error">
+                            <div ng-message="required">This is required.</div>
+                            <div ng-message="nodeidValidation">Invalid NodeID.</div>
+                        </div>
+                    </md-input-container>
+
+                    <div layout="row" layout-align="space-between center">
+                        <md-input-container class="md-block md-icon-right" flex="50">
+                            <label>Amount</label>
+                            <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="amount"
+                                   ng-model="ctrlSendPay.payment.amount" amount-unit-converter="mSAT">
+                            <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
+                            <div ng-messages="sendPayForm.amount.$error">
+                                <div ng-message="required">This is required.</div>
+                            </div>
+                        </md-input-container>
+
+
+                        <md-input-container class="md-block" flex="50">
+                            <label>Risk Factor</label>
+                            <input type="number" ng-required="ctrlSendPay.payment.autoRoute" name="riskFactor"
+                                   ng-model="ctrlSendPay.payment.riskFactor" min="0">
+                            <div ng-messages="sendPayForm.riskFactor.$error">
+                                <div ng-message="required">This is required.</div>
+                                <div ng-message="min">The riskfactor cannot be negative.</div>
+                            </div>
+                        </md-input-container>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Submit button - common part -->
             <div layout="row" layout-align="left center">
-                <md-button style="margin: 0;" class="md-raised md-primary" ng-disabled="sendPayForm.$invalid"
-                           ng-click="ctrlSendPay.submit()">Send payment
+                <md-button style="margin: 0; position: relative;" class="md-raised md-primary"
+                           ng-disabled="sendPayForm.$invalid || ctrlSendPay.bolt11.disableSubmit"
+                           ng-click="ctrlSendPay.submit()">
+                    Send payment
+                    <md-progress-linear style="position: absolute; left: 0; bottom: 0; transform: scaleY(1.6);"
+                                        md-mode="determinate" ng-if="ctrlSendPay.bolt11.timeLeft > 0"
+                                        ng-class="{'md-warn': ctrlSendPay.bolt11.timeLeft < 30}"
+                                        value="{{100 * ctrlSendPay.bolt11.timeLeft / ctrlSendPay.bolt11.payreq.expireTime}}"></md-progress-linear>
                 </md-button>
                 <md-progress-circular ng-if="ctrlSendPay.calculatingRoute" flex="98" class="half-size"
                                       style="margin-left: 15px;"></md-progress-circular>

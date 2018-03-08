@@ -88,6 +88,10 @@ md-card-header button.md-button {
   margin-top: 4px;
 }
 
+.widget-line.bottom.big {
+    margin-bottom: 8px;
+}
+
 /* line 83, ../sass/main.scss */
 .half-size {
   transform: scale(0.5);

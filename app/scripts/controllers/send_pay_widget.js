@@ -8,8 +8,10 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('SendPayWidgetCtrl', function ($q, LightningService, $scope, $rootScope) {
+    .controller('SendPayWidgetCtrl', function ($q, LightningService, $scope, $rootScope, $interval) {
         var _self = this;
+
+        this.mode = 'bolt11';
 
         this.loading = false;
         this.payment = {
@@ -21,13 +23,25 @@ angular.module('App')
             riskFactor: 1
         };
 
+        this.bolt11 = {
+            payreq: null,
+            msatoshi: null,
+            description: null,
+            riskfactor: 1.0,
+            maxfeepercent: 0.5,
+
+            disableSubmit: false,
+            timeLeft: 0,
+            interval: null
+        };
+
         $rootScope.$on('new-payment-recipient', function (_, peerid) {
             _self.payment.nodeid = peerid;
         });
 
         this.calculatingRoute = false;
 
-        this.submit = function () {
+        this.submitAdvanced = function () {
             var routePromise = $q.resolve();
 
             if (_self.payment.autoRoute) {
@@ -63,6 +77,68 @@ angular.module('App')
                     _self.loading = false;
                 });
         };
+
+        this.submitBOLT11 = function () {
+            console.log(_self.bolt11);
+            _self.bolt11.payreq = null;
+
+            _self.bolt11.disableSubmit = false;
+            $interval.cancel(_self.bolt11.interval);
+
+            $scope.sendPayForm.$setPristine();
+            $scope.sendPayForm.$setUntouched();
+        };
+
+        this.submit = function () {
+            if (_self.mode === 'bolt11') {
+                return _self.submitBOLT11();
+            } else if (_self.mode === 'advanced') {
+                return _self.submitAdvanced();
+            }
+
+            throw 'Unknown payment mode';
+        };
+
+        this.switchMode = function () {
+            _self.mode = (_self.mode === 'bolt11') ? 'advanced' : 'bolt11';
+            _self.bolt11.payreq = null;
+
+            _self.bolt11.disableSubmit = false;
+            $interval.cancel(_self.bolt11.interval);
+        };
+
+        $scope.$watch('ctrlSendPay.bolt11.payreq', function (newVal) {
+            _self.bolt11.disableSubmit = false;
+            _self.bolt11.timeLeft = newVal ? (newVal.expireTime || 0) : 0;
+
+            if (newVal && newVal.expireTime) {
+                var timeLeft = Math.max(_self.bolt11.payreq.timestamp + _self.bolt11.payreq.expireTime - Date.now(), 0);
+
+                if (timeLeft > 0) {
+                    _self.bolt11.interval = $interval(function () {
+                        _self.bolt11.timeLeft = --timeLeft;
+                    }, 1000, timeLeft);
+                } else {
+                    // already expired
+                    _self.bolt11.interval = $q.resolve();
+                    _self.bolt11.timeLeft = 0;
+                }
+
+                _self.bolt11.interval
+                    .then(function () {
+                        // timeout reached the end
+                        _self.bolt11.disableSubmit = true;
+                    })
+                    .catch(function () {
+                        // timeout cancelled
+                        _self.bolt11.timeLeft = 0;
+                        _self.bolt11.disableSubmit = false;
+                        _self.bolt11.interval = null;
+                    });
+            } else {
+                $interval.cancel(_self.bolt11.interval);
+            }
+        });
 
         this.$destroy = function () {
         };
