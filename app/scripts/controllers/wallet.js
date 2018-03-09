@@ -9,7 +9,7 @@
  */
 angular.module('App')
     .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, BitcoinService, LightningService, $mdToast, $mdDialog, SettingsService, UnitConversionService) {
-        $rootScope.$emit('page-title', 'Wallet');
+        $rootScope.$emit('page-title', 'BHB ⚡️ Wallet');
 
         $scope.addfunds = {
             amount: '',

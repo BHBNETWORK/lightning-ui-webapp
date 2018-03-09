@@ -9,7 +9,7 @@
  */
 angular.module('App')
     .controller('SettingsCtrl', function ($scope, $rootScope, $location, $mdToast, SettingsService) {
-        $rootScope.$emit('page-title', 'Settings');
+        $rootScope.$emit('page-title', 'BHB ⚡️ Settings');
 
         $scope.loading = false;
         $scope.currentSettings = SettingsService.getAllSettings();
