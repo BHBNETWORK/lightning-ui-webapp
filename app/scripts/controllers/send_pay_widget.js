@@ -79,14 +79,31 @@ angular.module('App')
         };
 
         this.submitBOLT11 = function () {
-            console.log(_self.bolt11);
-            _self.bolt11.payreq = null;
+            _self.loading = true;
 
-            _self.bolt11.disableSubmit = false;
-            $interval.cancel(_self.bolt11.interval);
+            LightningService.pay(
+                _self.bolt11.payreq.paymentRequest,
+                _self.bolt11.msatoshi,
+                _self.bolt11.description,
+                _self.bolt11.riskfactor,
+                _self.bolt11.maxfeepercent
+                )
+                .then(function () {
+                    _self.bolt11.payreq = null;
 
-            $scope.sendPayForm.$setPristine();
-            $scope.sendPayForm.$setUntouched();
+                    _self.bolt11.disableSubmit = false;
+                    $interval.cancel(_self.bolt11.interval);
+
+                    $scope.sendPayForm.$setPristine();
+                    $scope.sendPayForm.$setUntouched();
+                })
+                .catch(function (error) {
+                    console.warn(error);
+                    return $q.reject(error);
+                })
+                .finally(function () {
+                    _self.loading = false;
+                });
         };
 
         this.submit = function () {

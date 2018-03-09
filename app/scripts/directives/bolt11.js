@@ -35,7 +35,8 @@ angular.module('App')
                     var mapTags = {
                         'description': 'parsedDescription',
                         'fallback_address': 'fallbackAddress',
-                        'expire_time': 'expireTime'
+                        'expire_time': 'expireTime',
+                        'purpose_commit_hash': 'descriptionHash'
                     };
 
                     // We could sort and bsearch but honestly I don't think it's worth for so few tags

@@ -37,6 +37,16 @@
                     </div>
                 </md-input-container>
 
+                <md-input-container class="md-block"
+                                    ng-if="ctrlSendPay.bolt11.payreq !== null && ctrlSendPay.bolt11.payreq.descriptionHash">
+                    <label>Description</label>
+                    <textarea required name="description" ng-model="ctrlSendPay.bolt11.description" sha256-verify="ctrlSendPay.bolt11.payreq.descriptionHash"></textarea>
+                    <div ng-messages="sendPayForm.description.$error">
+                        <div ng-message="required">This is required.</div>
+                        <div ng-message="sha256Verify">Invalid description.</div>
+                    </div>
+                </md-input-container>
+
                 <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
                     <md-input-container flex="50">
                         <label>Risk factor</label>
