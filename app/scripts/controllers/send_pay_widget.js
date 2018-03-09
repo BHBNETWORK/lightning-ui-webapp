@@ -129,7 +129,7 @@ angular.module('App')
             _self.bolt11.timeLeft = newVal ? (newVal.expireTime || 0) : 0;
 
             if (newVal && newVal.expireTime) {
-                var timeLeft = Math.max(_self.bolt11.payreq.timestamp + _self.bolt11.payreq.expireTime - Date.now(), 0);
+                var timeLeft = _self.bolt11.timeLeft = Math.max(_self.bolt11.payreq.timestamp + _self.bolt11.payreq.expireTime - Math.floor(Date.now() / 1000), 0);
 
                 if (timeLeft > 0) {
                     _self.bolt11.interval = $interval(function () {
