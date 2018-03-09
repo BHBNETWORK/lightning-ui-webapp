@@ -52,7 +52,7 @@ angular.module('App')
                 LightningService.getFundsSum()
             ];
 
-            this.updateAddresses ();
+            _self.updateAddresses ();
 
             $q.all(promises)
                 .then(function (response) {
