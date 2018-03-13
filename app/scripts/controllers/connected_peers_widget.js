@@ -96,11 +96,11 @@ angular.module('App')
                     items: {
                         nodeid: nodeid,
                         /*jshint -W069 */
-                        msatoshiToUs: _self.peers[index]['msatoshi_to_us'],
-                        msatoshiToPeer: _self.peers[index]['msatoshi_total'] - _self.peers[index]['msatoshi_to_us'],
-                        msatoshiTotal: _self.peers[index]['msatoshi_total'],
+                        msatoshiToUs: _self.peers[index].channels[0].msatoshi_to_us,
+                        msatoshiToPeer: _self.peers[index].channels[0].msatoshi_total  - _self.peers[index].channels[0].msatoshi_to_us,
+                        msatoshiTotal: _self.peers[index].channels[0].msatoshi_total,
                         /*jshint +W069 */
-                        connectionStatus: _self.peers[index].state
+                        connectionStatus: _self.peers[index].channels[0].state
                     }
                 }
             })
