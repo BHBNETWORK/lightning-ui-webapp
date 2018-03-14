@@ -27,35 +27,19 @@
                     </div>
                 </md-input-container>
 
-                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
-                    <md-input-container flex="80">
-                        <label>Address</label>
-                        <input ng-required="!withdraw.autoaddress" ng-disabled="withdraw.autoaddress"
-                               name="address"
-                               ng-model="withdraw.address">
-                        <div ng-messages="withdrawForm.address.$error">
-                            <div ng-message="required">This is required.</div>
-                        </div>
-                    </md-input-container>
-
-                    <md-input-container flex="20">
-                        <md-checkbox class="md-primary" ng-model="withdraw.autoaddress">
-                            Auto
-                            <md-tooltip md-delay="600" md-direction="top">
-                                Automatically generate a new address
-                            </md-tooltip>
-                        </md-checkbox>
-                    </md-input-container>
-                </div>
+                <md-input-container flex="100" class="md-block">
+                    <label>Address</label>
+                    <input required name="address" ng-model="withdraw.address">
+                    <div ng-messages="withdrawForm.address.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
 
                 <div layout="row" layout-align="left center">
-                    <md-button style="margin: 0; position: absolute; bottom: 16px;" class="md-raised md-primary"
-                               ng-disabled="withdrawForm.$invalid"
-                               flex="1" ng-click="confirmWithdraw()">Confirm
+                    <md-button class="md-raised md-primary" ng-disabled="withdrawForm.$invalid" flex="1"
+                               ng-click="confirmWithdraw()" style="margin-left: 0;">
+                        Confirm
                     </md-button>
-                    <md-progress-circular ng-if="withdraw.generatingAddress" flex="98" class="half-size"
-                                          style="margin-left: 15px;"></md-progress-circular>
-                    <span ng-if="withdraw.generatingAddress" flex="1">Generating an address...</span>
                 </div>
             </form>
         </md-card-content>

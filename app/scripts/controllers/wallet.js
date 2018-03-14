@@ -8,14 +8,12 @@
  * Controller of the App
  */
 angular.module('App')
-    .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, BitcoinService, LightningService, $mdToast, $mdDialog, SettingsService, UnitConversionService) {
+    .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, LightningService, $mdToast, $mdDialog, SettingsService) {
         $rootScope.$emit('page-title', 'BHB ⚡️ Wallet');
 
         $scope.withdraw = {
             amount: '',
             address: '',
-            autoaddress: true,
-            generatingAddress: false,
             loading: false
         };
 
@@ -25,8 +23,6 @@ angular.module('App')
         function resetWithdraw() {
             $scope.withdraw = {
                 amount: '',
-                autoaddress: true,
-                generatingAddress: false,
                 loading: false
             };
 
@@ -52,20 +48,7 @@ angular.module('App')
 
             $scope.withdraw.loading = true;
 
-            var addressPromise = $q.resolve({address: $scope.withdraw.address});
-            if ($scope.withdraw.autoaddress) {
-                $scope.withdraw.generatingAddress = true;
-
-                addressPromise = BitcoinService.getNewAddress()
-                    .finally(function () {
-                        $scope.withdraw.generatingAddress = false;
-                    });
-            }
-
-            addressPromise
-                .then(function (address) {
-                    return LightningService.withdraw($scope.withdraw.amount, address.address);
-                })
+            LightningService.withdraw($scope.withdraw.amount, $scope.withdraw.address)
                 .then(function (response) {
                     $mdToast.show(
                         $mdToast.simple()
