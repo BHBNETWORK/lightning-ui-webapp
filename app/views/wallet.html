@@ -2,102 +2,7 @@
     <!-- My wallet widget -->
     <my-wallet-widget class="widget-card" flex-gt-xs="50" flex-xs="100"></my-wallet-widget>
 
-    <md-card class="widget-card" flex-gt-xs="50" flex-xs="100">
-        <md-progress-linear ng-show="addfunds.loading" md-mode="indeterminate"></md-progress-linear>
-        <md-card-header ng-class="addfunds.loading ? 'loading' : ''">
-            <md-card-avatar>
-                <md-icon class="md-avatar-icon">move_to_inbox</md-icon>
-            </md-card-avatar>
-            <md-card-header-text>
-                <span class="md-title">Add funds</span>
-                <span class="md-subhead">Move funds from Bitcoin to Lightning</span>
-            </md-card-header-text>
-        </md-card-header>
-
-        <md-card-content class="widget-content">
-            <form name="addFundsForm">
-
-                <md-input-container class="md-block md-icon-right">
-                    <label>Amount</label>
-                    <input type="number" ng-required="addfunds.autorawtx" name="amount" ng-model="addfunds.amount"
-                           ng-disabled="!addfunds.autorawtx" min="1" amount-unit-converter="SAT">
-                    <span class="input-unit-name">{{SettingsService.get('unit')}}</span>
-                    <div ng-messages="addFundsForm.amount.$error">
-                        <div ng-message="required">This is required.</div>
-                        <div ng-message="min">Invalid amount.</div>
-                    </div>
-                </md-input-container>
-
-                <div layout="row" layout-align="space-between center" ng-if="SettingsService.get('advancedMode')">
-                    <md-input-container flex="80">
-                        <label>RawTX</label>
-                        <input ng-required="!addfunds.autorawtx" ng-disabled="addfunds.autorawtx"
-                               name="rawtx"
-                               ng-model="addfunds.rawtx">
-                        <div ng-messages="addFundsForm.route.$error">
-                            <div ng-message="required">This is required.</div>
-                        </div>
-                    </md-input-container>
-
-                    <md-input-container flex="20">
-                        <md-checkbox class="md-primary" ng-model="addfunds.autorawtx">
-                            Auto
-                            <md-tooltip md-delay="600" md-direction="top">
-                                Automatically create the transaction
-                            </md-tooltip>
-                        </md-checkbox>
-                    </md-input-container>
-                </div>
-
-                <div layout="row" layout-align="left center">
-                    <md-button style="margin: 0;" class="md-raised md-primary" ng-disabled="addFundsForm.$invalid"
-                               flex="1" ng-click="confirmAddFunds()">Confirm
-                    </md-button>
-                    <md-progress-circular ng-if="addfunds.creatingTx" flex="98" class="half-size"
-                                          style="margin-left: 15px;"></md-progress-circular>
-                    <span ng-if="addfunds.creatingTx" flex="1">Creating the transaction...</span>
-                </div>
-            </form>
-        </md-card-content>
-    </md-card>
-</div>
-
-<div layout="coulumn" layout-fill class="layout-fill-height-fix">
-    <md-card class="widget-card" flex="50">
-        <md-progress-linear ng-show="loadingPeers" md-mode="indeterminate"></md-progress-linear>
-        <md-card-header ng-class="loadingPeers ? 'loading' : ''">
-            <md-card-avatar>
-                <md-icon class="md-avatar-icon">add</md-icon>
-            </md-card-avatar>
-            <md-card-header-text>
-                <span class="md-title">Open a new channel</span>
-                <span class="md-subhead">Add funds to open a new Lightning channel</span>
-            </md-card-header-text>
-
-            <md-button class="md-icon-button" ng-click="refreshPeers()">
-                <md-icon>refresh</md-icon>
-                <md-tooltip md-delay="600" md-direction="top">
-                    Refresh the list of peers
-                </md-tooltip>
-            </md-button>
-        </md-card-header>
-
-        <md-card-content class="widget-content no-padding scroll-box max-width-fix" style="min-height: 300px;">
-            <md-list>
-                <md-list-item ng-repeat="peer in peers"
-                              ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN' && peer.state !== 'CHANNELD_SHUTTING_DOWN'">
-                    <span class="code" style="overflow-x: hidden;">{{peer.id}}</span>
-                    <md-button class="md-secondary md-icon-button" ng-click="fundChannel($event, peer.id)">
-                        <md-icon>add</md-icon>
-                        <md-tooltip md-delay="600" md-direction="top">
-                            Add funds to open a channel
-                        </md-tooltip>
-                    </md-button>
-                </md-list-item>
-            </md-list>
-        </md-card-content>
-    </md-card>
-
+    <!-- Withdraw widget -->
     <md-card class="widget-card" flex="50">
         <md-progress-linear ng-show="loadingWithdraw" md-mode="indeterminate"></md-progress-linear>
         <md-card-header ng-class="loadingWithdraw ? 'loading' : ''">
@@ -153,6 +58,43 @@
                     <span ng-if="withdraw.generatingAddress" flex="1">Generating an address...</span>
                 </div>
             </form>
+        </md-card-content>
+    </md-card>
+</div>
+
+<div layout="coulumn" layout-fill class="layout-fill-height-fix">
+    <md-card class="widget-card" flex="100">
+        <md-progress-linear ng-show="loadingPeers" md-mode="indeterminate"></md-progress-linear>
+        <md-card-header ng-class="loadingPeers ? 'loading' : ''">
+            <md-card-avatar>
+                <md-icon class="md-avatar-icon">add</md-icon>
+            </md-card-avatar>
+            <md-card-header-text>
+                <span class="md-title">Open a new channel</span>
+                <span class="md-subhead">Add funds to open a new Lightning channel</span>
+            </md-card-header-text>
+
+            <md-button class="md-icon-button" ng-click="refreshPeers()">
+                <md-icon>refresh</md-icon>
+                <md-tooltip md-delay="600" md-direction="top">
+                    Refresh the list of peers
+                </md-tooltip>
+            </md-button>
+        </md-card-header>
+
+        <md-card-content class="widget-content no-padding scroll-box" style="min-height: 300px;">
+            <md-list>
+                <md-list-item ng-repeat="peer in peers"
+                              ng-if="peer.state !== 'CHANNELD_NORMAL' && peer.state !== 'CHANNELD_AWAITING_LOCKIN' && peer.state !== 'CHANNELD_SHUTTING_DOWN'">
+                    <span class="code" style="overflow-x: hidden;">{{peer.id}}</span>
+                    <md-button class="md-secondary md-icon-button" ng-click="fundChannel($event, peer.id)">
+                        <md-icon>add</md-icon>
+                        <md-tooltip md-delay="600" md-direction="top">
+                            Add funds to open a channel
+                        </md-tooltip>
+                    </md-button>
+                </md-list-item>
+            </md-list>
         </md-card-content>
     </md-card>
 </div>

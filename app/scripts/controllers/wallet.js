@@ -11,14 +11,6 @@ angular.module('App')
     .controller('WalletCtrl', function ($scope, $rootScope, $location, $q, BitcoinService, LightningService, $mdToast, $mdDialog, SettingsService, UnitConversionService) {
         $rootScope.$emit('page-title', 'BHB ⚡️ Wallet');
 
-        $scope.addfunds = {
-            amount: '',
-            autorawtx: true,
-            rawtx: '',
-            creatingTx: false,
-            loading: false
-        };
-
         $scope.withdraw = {
             amount: '',
             address: '',
@@ -29,19 +21,6 @@ angular.module('App')
 
         $scope.peers = [];
         $scope.loadingPeers = false;
-
-        function resetAddFunds() {
-            $scope.addfunds = {
-                amount: '',
-                autorawtx: true,
-                rawtx: '',
-                creatingTx: false,
-                loading: false
-            };
-
-            $scope.addFundsForm.$setPristine();
-            $scope.addFundsForm.$setUntouched();
-        }
 
         function resetWithdraw() {
             $scope.withdraw = {
@@ -67,50 +46,6 @@ angular.module('App')
                 });
         };
         $scope.refreshPeers();
-
-        $scope.confirmAddFunds = function () {
-            // TODO: alert(?)
-
-            $scope.addfunds.loading = true;
-
-            var rawTxPromise = $q.resolve({rawtx: $scope.addfunds.rawtx});
-            if ($scope.addfunds.autorawtx) {
-                $scope.addfunds.creatingTx = true;
-
-                rawTxPromise = LightningService.getNewAddress()
-                    .then(function (addr) {
-                        return BitcoinService.sendToAddress(addr.address, ($scope.addfunds.amount / 1e8).toFixed(8));
-                    })
-                    .then(function (txid) {
-                        return BitcoinService.getRawTransaction(txid.txid);
-                    })
-                    .finally(function () {
-                        $scope.addfunds.creatingTx = false;
-                    });
-            }
-
-            rawTxPromise
-                .then(function (rawtx) {
-                    return LightningService.addFunds(rawtx.rawtx);
-                })
-                .then(function (response) {
-                    var convertedValue = UnitConversionService.convert(response.satoshis, 'SAT', SettingsService.get('unit'));
-
-                    $mdToast.show(
-                        $mdToast.simple()
-                            .textContent('Added ' + convertedValue + ' ' + SettingsService.get('unit') + ' to your Lightning wallet')
-                            .highlightAction(true)
-                            .position('bottom right')
-                            .hideDelay(false)
-                            .action('Close')
-                    );
-
-                    resetAddFunds();
-                })
-                .finally(function () {
-                    $scope.addfunds.loading = false;
-                });
-        };
 
         $scope.confirmWithdraw = function () {
             // TODO: alert(?)
