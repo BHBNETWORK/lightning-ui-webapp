@@ -17,16 +17,6 @@
     </md-card-header>
 
     <md-card-content class="widget-content">
-        <div layout="row" layout-align="space-between center">
-            <span flex="25">Bitcoin Address:</span>
-            <span flex="70" class="code" style="font-size: 0.97em; width: 100%;">{{ctrlWallet.bitcoinAddress}}</span>
-            <md-button class="md-secondary md-icon-button" ng-click="ctrlWallet.newBitcoinAddress()">
-                <md-icon>add</md-icon>
-                <md-tooltip md-delay="600" md-direction="top">
-                    Generate new Bitcoin Address
-                </md-tooltip>
-            </md-button>
-        </div>
         <div layout="row" layout-align="space-between center" style="margin-top: 7px;">
             <span flex="25">Lightning Address:</span>
             <span flex="70" class="code" style="font-size: 0.97em; width: 100%;">{{ctrlWallet.lightningAddress}}</span>
@@ -39,17 +29,7 @@
         </div>
 
         <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
-            <span flex="35">Confirmed balance:</span>
-            <span flex="65" style="text-align: right;">{{ctrlWallet.confirmedBalance | AmountUnitFilter : 'SAT'}}</span>
-        </div>
-        <div layout="row" class="widget-line" layout-align="center center">
-            <span flex="35">Unconfirmed balance:</span>
-            <span flex="65"
-                  style="text-align: right;">{{ctrlWallet.unconfirmedBalance | AmountUnitFilter : 'SAT'}}</span>
-        </div>
-
-        <div layout="row" class="widget-line" layout-align="center center" style="margin-top: 12px;">
-            <span flex="35">Lightning funds:</span>
+            <span flex="35">Available Lightning funds:</span>
             <span flex="65" style="text-align: right;">{{ctrlWallet.lightningFunds | AmountUnitFilter : 'SAT'}}</span>
         </div>
     </md-card-content>
