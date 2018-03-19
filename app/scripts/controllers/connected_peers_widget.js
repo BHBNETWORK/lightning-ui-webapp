@@ -114,42 +114,18 @@ angular.module('App')
         };
 
         this.addPeer = function (ev, nodeid, ip, port) {
-            var newNode = {
-                ip: ip || '',
-                port: port || 9735,
-                nodeid: nodeid || ''
-            };
-
             $mdDialog.show({
-                controller: 'DialogCtrl',
+                controller: 'NewPeerDialogCtrl',
                 templateUrl: 'views/new_peer_dialog.html',
                 parent: angular.element(document.body),
                 targetEvent: ev,
                 clickOutsideToClose: true,
                 locals: {
                     items: {
-                        newNode: newNode,
-                        confirmNewNode: function (ev) {
-                            $rootScope.$emit('loading-start', ev);
-                            var _selfConfirmDialog = this;
-
-                            LightningService.connect(newNode.ip, newNode.port, newNode.nodeid)
-                                .then(function () {
-                                    _self.update();
-                                })
-                                .catch(function (err) {
-                                    console.warn(err);
-                                })
-                                .finally(function () {
-                                    $rootScope.$emit('loading-stop');
-
-                                    _selfConfirmDialog.close();
-
-                                    newNode = {};
-                                    _self.connectPeer.$setPristine();
-                                    _self.connectPeer.$setUntouched();
-                                });
-                        }
+                        nodeid: nodeid,
+                        ip: ip,
+                        port: port,
+                        connected_peers_ctrl: _self
                     }
                 }
             });
