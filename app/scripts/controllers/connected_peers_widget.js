@@ -60,7 +60,12 @@ angular.module('App')
         };
 
         this.connect = function (ev, nodeid, netaddr) {
-            var splitIndex = netaddr.lastIndexOf(':');
+            var splitIndex = (netaddr || '').lastIndexOf(':');
+
+            if (splitIndex < 0) { // no netaddr defined
+                return _self.addPeer(ev, nodeid);
+            }
+
             var address = netaddr.slice(0, splitIndex);
             var port = netaddr.slice(splitIndex);
 
@@ -108,11 +113,11 @@ angular.module('App')
                 }); // do nothing
         };
 
-        this.addPeer = function (ev) {
+        this.addPeer = function (ev, nodeid, ip, port) {
             var newNode = {
-                ip: '',
-                port: 10000,
-                nodeid: ''
+                ip: ip || '',
+                port: port || 9735,
+                nodeid: nodeid || ''
             };
 
             $mdDialog.show({
@@ -126,7 +131,7 @@ angular.module('App')
                         newNode: newNode,
                         confirmNewNode: function (ev) {
                             $rootScope.$emit('loading-start', ev);
-                            var _self = this;
+                            var _selfConfirmDialog = this;
 
                             LightningService.connect(newNode.ip, newNode.port, newNode.nodeid)
                                 .then(function () {
@@ -138,7 +143,7 @@ angular.module('App')
                                 .finally(function () {
                                     $rootScope.$emit('loading-stop');
 
-                                    _self.close();
+                                    _selfConfirmDialog.close();
 
                                     newNode = {};
                                     _self.connectPeer.$setPristine();
