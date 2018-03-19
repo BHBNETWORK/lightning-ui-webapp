@@ -1,7 +1,7 @@
 <md-dialog ng-cloak>
     <md-toolbar>
         <div class="md-toolbar-tools">
-            <h2>Peer informations</h2>
+            <h2>{{nodeid}}</h2>
             <span flex></span>
             <md-button class="md-icon-button" ng-click="close()">
                 <md-icon>close</md-icon>
@@ -10,15 +10,15 @@
     </md-toolbar>
 
     <md-dialog-content>
-        <div class="md-dialog-content">
-            <p>Showing informations of peer <span class="code height-2-2">{{nodeid}}</span>:</p>
+        <md-list>
+            <h4 style="margin-left: 20px;">Channels</h4>
 
-            <p>Connection status: {{connectionStatus}}</p>
-            <br>
-
-            <p>Amount to us: {{msatoshiToUs | AmountUnitFilter : 'mSAT'}}</p>
-            <p>Amount to peer: {{msatoshiToPeer | AmountUnitFilter : 'mSAT'}}</p>
-            <p>Total amount: {{msatoshiTotal | AmountUnitFilter : 'mSAT'}}</p>
-        </div>
+            <md-list-item ng-repeat="channel in channels"
+                          style="{{generateChannelStatusCSS(channel.msatoshi_to_us / channel.msatoshi_total)}}">
+                <md-icon>{{getIcon(channel.state)}}</md-icon>
+                <p>To us: {{channel.msatoshi_to_us | AmountUnitFilter : 'mSAT'}} / {{channel.msatoshi_total |
+                    AmountUnitFilter : 'mSAT'}}</p>
+            </md-list-item>
+        </md-list>
     </md-dialog-content>
 </md-dialog>

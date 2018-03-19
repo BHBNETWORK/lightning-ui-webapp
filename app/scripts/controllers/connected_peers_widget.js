@@ -90,6 +90,16 @@ angular.module('App')
             return icons[peerState] || 'help_outline';
         };
 
+        function generateChannelStatusCSS(percentage) {
+            var str = '';
+
+            str += 'background: -moz-linear-gradient(left, rgba(112,112,112, 1) 0%, rgba(112,112,112, 1) ' + (percentage * 100) + '%, rgba(66,66,66,1) ' + (percentage * 100) + '%, rgba(66,66,66,1) 100%);\n' +
+                'background: -webkit-linear-gradient(left, rgba(112,112,112, 1) 0%,rgba(112,112,112, 1) ' + (percentage * 100) + '%,rgba(66,66,66,1) ' + (percentage * 100) + '%,rgba(66,66,66,1) 100%);\n' +
+                'background: linear-gradient(to right, rgba(112,112,112, 1) 0%,rgba(112,112,112, 1) ' + (percentage * 100) + '%,rgba(66,66,66,1) ' + (percentage * 100) + '%,rgba(66,66,66,1) 100%);';
+
+            return str;
+        }
+
         this.peerInfoDialog = function (ev, nodeid, index) {
             $mdDialog.show({
                 controller: 'DialogCtrl',
@@ -100,12 +110,10 @@ angular.module('App')
                 locals: {
                     items: {
                         nodeid: nodeid,
-                        /*jshint -W069 */
-                        msatoshiToUs: _self.peers[index].channels[0].msatoshi_to_us,
-                        msatoshiToPeer: _self.peers[index].channels[0].msatoshi_total  - _self.peers[index].channels[0].msatoshi_to_us,
-                        msatoshiTotal: _self.peers[index].channels[0].msatoshi_total,
-                        /*jshint +W069 */
-                        connectionStatus: _self.peers[index].channels[0].state
+                        channels: _self.peers[index].channels,
+                        getIcon: _self.getIcon,
+                        showConfirm: _self.showConfirm,
+                        generateChannelStatusCSS: generateChannelStatusCSS
                     }
                 }
             })
