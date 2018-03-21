@@ -14,7 +14,7 @@ angular.module('App')
 
         var getServerPathPromise = $q.resolve(Config.getServerPath());
         if (!Config.getServerPath()) {
-            var confirm = $mdDialog.prompt()
+            var prompt = $mdDialog.prompt()
                 .title('Select a lightning-ui server')
                 .textContent('Don\'t forget the trailing \'/api\'')
                 .placeholder('https://my.local.node/api')
@@ -22,15 +22,40 @@ angular.module('App')
                 .required(true)
                 .ok('Done!');
 
-            getServerPathPromise = $mdDialog.show(confirm)
-                .then(function (result) {
-                    // save the result in localStorage
-                    window.localStorage.setItem('serverHost', result);
+            var tempServerHost = '';
 
-                    return result;
-                }, function () {
-                    console.warn(arguments);
-                });
+            var checkForHTTPS = function (result) {
+                tempServerHost = result;
+
+                var confirm = $q.resolve();
+                if (!result.startsWith('https://')) {
+                    var confirmDialog = $mdDialog.confirm()
+                        .title('You are not using https')
+                        .textContent('This setup is not safe - you could loose funds. ' +
+                            'Do you want to proceed anyways?')
+                        .ariaLabel('Confirm unsecure HTTP')
+                        .ok('Yes')
+                        .cancel('No');
+
+                    confirm = $mdDialog.show(confirmDialog);
+                }
+
+                return confirm;
+            };
+
+            var saveServerHost = function () {
+                // save the result in localStorage
+                window.localStorage.setItem('serverHost', tempServerHost);
+                return tempServerHost;
+            };
+
+            var catchErrors = function () {
+                return $mdDialog.show(prompt).then(checkForHTTPS).then(saveServerHost)
+                    .catch(catchErrors);
+            };
+
+            getServerPathPromise = $mdDialog.show(prompt).then(checkForHTTPS).then(saveServerHost)
+                .catch(catchErrors);
         }
 
         this.getResource = function (path) {
