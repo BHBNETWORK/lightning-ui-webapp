@@ -38,9 +38,16 @@ module.exports = function (grunt) {
                 files: ['bower.json'],
                 tasks: ['wiredep']
             },
+            jsTranspiled: {
+                files: ['<%= yeoman.app %>/scripts/directives/bolt11.js'],
+                tasks: ['newer:jshint:all', 'newer:jscs:all', 'browserify', 'es6transpiler'],
+                options: {
+                    livereload: '<%= connect.options.livereload %>'
+                }
+            },
             js: {
                 files: ['<%= yeoman.app %>/scripts/{,*/}*.js'],
-                tasks: ['newer:jshint:all', 'newer:jscs:all', 'browserify', 'es6transpiler'],
+                tasks: ['newer:jshint:all', 'newer:jscs:all'],
                 options: {
                     livereload: '<%= connect.options.livereload %>'
                 }
