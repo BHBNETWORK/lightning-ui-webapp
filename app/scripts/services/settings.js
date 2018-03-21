@@ -24,7 +24,10 @@ angular.module('App')
         };
 
         this.getRemoteSettings = function () {
-            return ResourcesGeneratorService.getResource('settings').get().$promise
+            return ResourcesGeneratorService.getResource('settings')
+                .then(function (resource) {
+                    return resource.get().$promise;
+                })
                 .then(function (response) {
                         settings = response;
                         return settings;
@@ -33,7 +36,10 @@ angular.module('App')
         };
 
         this.updateSettings = function (settingsObject) {
-            return ResourcesGeneratorService.getResource('settings').put(settingsObject).$promise
+            return ResourcesGeneratorService.getResource('settings')
+                .then(function (resource) {
+                    return resource.put(settingsObject).$promise;
+                })
                 .then(function () {
                     settings = settingsObject;
                     return settings;

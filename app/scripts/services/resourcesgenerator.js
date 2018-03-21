@@ -12,20 +12,48 @@ angular.module('App')
         var DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred, please try again later';
         var lastErrorPopup = $q.resolve();
 
+        var getServerPathPromise = $q.resolve(Config.getServerPath());
+        if (!Config.getServerPath()) {
+            var confirm = $mdDialog.prompt()
+                .title('Select a lightning-ui server')
+                .textContent('Don\'t forget the trailing \'/api\'')
+                .placeholder('https://my.local.node/api')
+                .ariaLabel('Server URL')
+                .required(true)
+                .ok('Done!');
+
+            getServerPathPromise = $mdDialog.show(confirm)
+                .then(function (result) {
+                    // save the result in localStorage
+                    window.localStorage.setItem('serverHost', result);
+
+                    return result;
+                }, function () {
+                    console.warn(arguments);
+                });
+        }
+
         this.getResource = function (path) {
-            return $resource(Config.getServerPath() + path, {}, {
-                'get': {method: 'GET'},
-                'save': {method: 'POST'},
-                'post': {method: 'POST'},
-                'put': {
-                    method: 'PUT', params: {
-                        /* paramName: '@paramName' */
+            return getServerPathPromise
+                .then(function (serverPath) {
+                    if (serverPath[serverPath.length - 1] !== '/') {
+                        serverPath += '/'; // append final slash
                     }
-                },
-                'query': {method: 'GET', isArray: true},
-                'remove': {method: 'DELETE'},
-                'delete': {method: 'DELETE'}
-            });
+
+                    return $resource(serverPath + path, {}, {
+                        'get': {method: 'GET'},
+                        'save': {method: 'POST'},
+                        'post': {method: 'POST'},
+                        'put': {
+                            method: 'PUT', params: {
+                                /* paramName: '@paramName' */
+                            }
+                        },
+                        'query': {method: 'GET', isArray: true},
+                        'remove': {method: 'DELETE'},
+                        'delete': {method: 'DELETE'}
+                    });
+                });
         };
 
         this.successHandler = function (response) {
@@ -36,7 +64,7 @@ angular.module('App')
             $rootScope.$emit('loading-stop');
 
             var errorString = null;
-            if (errorResponse && errorResponse.data && errorResponse.data.error && errorResponse.data.error.message && typeof errorResponse.data.error.message === typeof ('string') ) {
+            if (errorResponse && errorResponse.data && errorResponse.data.error && errorResponse.data.error.message && typeof errorResponse.data.error.message === typeof ('string')) {
                 errorString = errorResponse.data.error.message;
             }
 

@@ -11,14 +11,12 @@ angular.module('App')
     .provider('Config', function () {
         this.serverHost = null;
 
-        var exceptionStringValue = 'Uninitialized config server values';
-
         this.$get = function () {
             var obj = this;
             return {
                 getServerPath: function () {
                     if (!obj.serverHost) {
-                        throw exceptionStringValue;
+                        return false;
                     }
 
                     return obj.serverHost + '/';
