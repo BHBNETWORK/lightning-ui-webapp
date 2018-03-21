@@ -28,8 +28,8 @@ angular.module('App')
                 .textContent('You will be asked for a new lightning-ui server address the next time you\'ll come back')
                 .ariaLabel('Confirm disconnection')
                 .targetEvent(ev)
-                .ok('Yes')
-                .cancel('No');
+                .ok('Disconnect')
+                .cancel('Cancel');
 
             $mdDialog.show(confirm)
                 .then(function () {

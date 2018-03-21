@@ -20,7 +20,7 @@ angular.module('App')
                 .placeholder('https://my.local.node/api')
                 .ariaLabel('Server URL')
                 .required(true)
-                .ok('Done!');
+                .ok('OK');
 
             var tempServerHost = '';
 
@@ -34,8 +34,8 @@ angular.module('App')
                         .textContent('This setup is not safe - you could loose funds. ' +
                             'Do you want to proceed anyways?')
                         .ariaLabel('Confirm unsecure HTTP')
-                        .ok('Yes')
-                        .cancel('No');
+                        .ok('Proceed')
+                        .cancel('Cancel');
 
                     confirm = $mdDialog.show(confirmDialog);
                 }
