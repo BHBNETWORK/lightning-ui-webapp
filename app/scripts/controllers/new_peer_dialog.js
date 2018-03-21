@@ -9,7 +9,7 @@
  */
 angular.module('App')
     .controller('NewPeerDialogCtrl', function ($scope, $mdDialog, items, LightningService, $rootScope, $q) {
-        $scope.mode = 'connection-string';
+        $scope.mode = items.mode || 'connection-string';
         $scope.newNode = {};
 
         function generateString(nodeid, ip, port) {

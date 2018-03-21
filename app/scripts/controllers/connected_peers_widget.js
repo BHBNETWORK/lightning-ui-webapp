@@ -63,7 +63,7 @@ angular.module('App')
             var splitIndex = (netaddr || '').lastIndexOf(':');
 
             if (splitIndex < 0) { // no netaddr defined
-                return _self.addPeer(ev, nodeid);
+                return _self.addPeer(ev, nodeid, '', '', 'advanced');
             }
 
             var address = netaddr.slice(0, splitIndex);
@@ -113,7 +113,7 @@ angular.module('App')
                 }); // do nothing
         };
 
-        this.addPeer = function (ev, nodeid, ip, port) {
+        this.addPeer = function (ev, nodeid, ip, port, mode) {
             $mdDialog.show({
                 controller: 'NewPeerDialogCtrl',
                 templateUrl: 'views/new_peer_dialog.html',
@@ -125,7 +125,8 @@ angular.module('App')
                         nodeid: nodeid,
                         ip: ip,
                         port: port,
-                        connected_peers_ctrl: _self
+                        connected_peers_ctrl: _self,
+                        mode: mode
                     }
                 }
             });
