@@ -22,13 +22,17 @@
             </md-input-container>
         </form>
     </md-card-content>
-    <md-card-actions layout="row" layout-align="start center">
+    <md-card-actions layout="row" layout-align="space-between center">
         <md-button class="md-raised md-primary" ng-click="save()" ng-disabled="loading">
             <span ng-if="!loading">Save</span>
             <span ng-if="loading">
                 <md-progress-circular style="left: 11px; top: -3.5px;" flex="98"
                                       class="half-size"></md-progress-circular>
             </span>
+        </md-button>
+
+        <md-button class="md-raised md-warn" ng-click="disconnectFromServer($event)">
+            Disconnect from this server
         </md-button>
     </md-card-actions>
 </md-card>

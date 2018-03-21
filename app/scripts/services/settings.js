@@ -8,8 +8,10 @@
  * Service of the App
  */
 angular.module('App')
-    .service('SettingsService', function (ResourcesGeneratorService) {
+    .service('SettingsService', function (ResourcesGeneratorService, $q) {
         var settings = {};
+
+        var getSettingsPromise = $q.reject({});
 
         this.get = function (key) {
             if (!(key in settings)) {
@@ -20,11 +22,11 @@ angular.module('App')
         };
 
         this.getAllSettings = function () {
-            return settings;
+            return getSettingsPromise;
         };
 
         this.getRemoteSettings = function () {
-            return ResourcesGeneratorService.getResource('settings')
+            getSettingsPromise = ResourcesGeneratorService.getResource('settings')
                 .then(function (resource) {
                     return resource.get().$promise;
                 })
@@ -33,6 +35,8 @@ angular.module('App')
                         return settings;
                     },
                     ResourcesGeneratorService.failureHandler);
+
+            return getSettingsPromise;
         };
 
         this.updateSettings = function (settingsObject) {
