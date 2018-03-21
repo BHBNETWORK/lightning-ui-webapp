@@ -3,6 +3,9 @@
         <div class="md-toolbar-tools">
             <h2>Connect to a new peer</h2>
             <span flex></span>
+            <md-button class="md-icon-button" ng-click="toggleMode()">
+                <md-icon>switch_camera</md-icon>
+            </md-button>
             <md-button class="md-icon-button" ng-click="close()">
                 <md-icon>close</md-icon>
             </md-button>
@@ -10,7 +13,21 @@
     </md-toolbar>
 
     <form name="connectPeer">
-        <md-dialog-content>
+        <!-- connection-string -->
+        <md-dialog-content ng-if="mode === 'connection-string'">
+            <div class="md-dialog-content" style="padding-bottom: 0;">
+                <md-input-container class="md-block">
+                    <label>Connection String</label>
+                    <input name="string" ng-model="newNode.string" required>
+                    <div ng-messages="connectPeer.string.$error">
+                        <div ng-message="required">This is required.</div>
+                    </div>
+                </md-input-container>
+            </div>
+        </md-dialog-content>
+
+        <!-- advanced -->
+        <md-dialog-content ng-if="mode === 'advanced'">
             <div class="md-dialog-content" style="padding-bottom: 0;">
                 <div layout-gt-xs="row">
                     <md-input-container class="md-block" flex-gt-xs="75">
@@ -42,8 +59,9 @@
                 </md-input-container>
             </div>
         </md-dialog-content>
+
         <md-dialog-actions layout="row">
-            <md-button class="md-raised md-primary" ng-click="confirmNewNode($event);"
+            <md-button class="md-raised md-primary" ng-click="confirm($event);"
                        ng-disabled="connectPeer.$invalid">
                 Submit
             </md-button>

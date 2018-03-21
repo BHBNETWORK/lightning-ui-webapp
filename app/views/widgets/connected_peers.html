@@ -18,7 +18,7 @@
         <md-button class="md-icon-button" ng-click="ctrlConnectedPeers.update();">
             <md-icon>refresh</md-icon>
             <md-tooltip md-delay="600" md-direction="top">
-                Update the list of the known peers
+                Update the list of known peers
             </md-tooltip>
         </md-button>
     </md-card-header>
@@ -26,9 +26,7 @@
     <md-card-content class="widget-content no-padding scroll-box" style="min-height: 150px;">
         <md-list>
             <md-list-item ng-repeat="peer in ctrlConnectedPeers.peers">
-                <md-icon class="md-avatar-icon md-avatar list-icon">
-                    {{ctrlConnectedPeers.getIcon(peer.state)}}
-                </md-icon>
+                <md-icon class="md-avatar-icon md-avatar list-icon">account_box</md-icon>
 
                 <span class="code nodeid">{{peer.id}}</span>
 
@@ -59,12 +57,6 @@
                             <md-button ng-disabled="peer.connected"
                                        ng-click="ctrlConnectedPeers.connect($event, peer.id, peer.netaddr);">
                                 Connect
-                            </md-button>
-                        </md-menu-item>
-                        <md-menu-item>
-                            <md-button ng-disabled="peer.state !== 'CHANNELD_NORMAL'"
-                                       ng-click="ctrlConnectedPeers.showConfirm($event, peer.id, $index);">
-                                Close channel
                             </md-button>
                         </md-menu-item>
                     </md-menu-content>
