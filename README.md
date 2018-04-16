@@ -15,6 +15,8 @@ Run `npm install` and `bower install` to install all the required local dependen
 
 ## Build & development
 
+First check [lightning-ui-backend](https://github.com/BHBNETWORK/lightning-ui-backend) is up and running.
+
 Run `grunt` for building and `grunt serve` for preview.
 
 ## Testing
