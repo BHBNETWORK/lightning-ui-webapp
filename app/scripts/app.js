@@ -59,7 +59,7 @@ angular
         });
     })
     .config(function (ConfigProvider) {
-        ConfigProvider.serverHost = 'http://127.0.0.1:9000/api';
+        ConfigProvider.serverHost = window.localStorage.serverHost;
     })
     .run(function ($rootScope, SettingsService) {
         $rootScope.SettingsService = SettingsService;

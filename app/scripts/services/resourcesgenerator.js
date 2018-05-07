@@ -12,20 +12,73 @@ angular.module('App')
         var DEFAULT_ERROR_MESSAGE = 'An unexpected error occurred, please try again later';
         var lastErrorPopup = $q.resolve();
 
+        var getServerPathPromise = $q.resolve(Config.getServerPath());
+        if (!Config.getServerPath()) {
+            var prompt = $mdDialog.prompt()
+                .title('Select a lightning-ui server')
+                .textContent('Don\'t forget the trailing \'/api\'')
+                .placeholder('https://my.local.node/api')
+                .ariaLabel('Server URL')
+                .required(true)
+                .ok('OK');
+
+            var tempServerHost = '';
+
+            var checkForHTTPS = function (result) {
+                tempServerHost = result;
+
+                var confirm = $q.resolve();
+                if (!result.startsWith('https://')) {
+                    var confirmDialog = $mdDialog.confirm()
+                        .title('You are not using https')
+                        .textContent('This setup is not safe - you could loose funds. ' +
+                            'Do you want to proceed anyways?')
+                        .ariaLabel('Confirm unsecure HTTP')
+                        .ok('Proceed')
+                        .cancel('Cancel');
+
+                    confirm = $mdDialog.show(confirmDialog);
+                }
+
+                return confirm;
+            };
+
+            var saveServerHost = function () {
+                // save the result in localStorage
+                window.localStorage.setItem('serverHost', tempServerHost);
+                return tempServerHost;
+            };
+
+            var catchErrors = function () {
+                return $mdDialog.show(prompt).then(checkForHTTPS).then(saveServerHost)
+                    .catch(catchErrors);
+            };
+
+            getServerPathPromise = $mdDialog.show(prompt).then(checkForHTTPS).then(saveServerHost)
+                .catch(catchErrors);
+        }
+
         this.getResource = function (path) {
-            return $resource(Config.getServerPath() + path, {}, {
-                'get': {method: 'GET'},
-                'save': {method: 'POST'},
-                'post': {method: 'POST'},
-                'put': {
-                    method: 'PUT', params: {
-                        /* paramName: '@paramName' */
+            return getServerPathPromise
+                .then(function (serverPath) {
+                    if (serverPath[serverPath.length - 1] !== '/') {
+                        serverPath += '/'; // append final slash
                     }
-                },
-                'query': {method: 'GET', isArray: true},
-                'remove': {method: 'DELETE'},
-                'delete': {method: 'DELETE'}
-            });
+
+                    return $resource(serverPath + path, {}, {
+                        'get': {method: 'GET'},
+                        'save': {method: 'POST'},
+                        'post': {method: 'POST'},
+                        'put': {
+                            method: 'PUT', params: {
+                                /* paramName: '@paramName' */
+                            }
+                        },
+                        'query': {method: 'GET', isArray: true},
+                        'remove': {method: 'DELETE'},
+                        'delete': {method: 'DELETE'}
+                    });
+                });
         };
 
         this.successHandler = function (response) {
@@ -36,7 +89,7 @@ angular.module('App')
             $rootScope.$emit('loading-stop');
 
             var errorString = null;
-            if (errorResponse && errorResponse.data && errorResponse.data.error && errorResponse.data.error.message && typeof errorResponse.data.error.message === typeof ('string') ) {
+            if (errorResponse && errorResponse.data && errorResponse.data.error && errorResponse.data.error.message && typeof errorResponse.data.error.message === typeof ('string')) {
                 errorString = errorResponse.data.error.message;
             }
 
